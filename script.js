@@ -213,7 +213,9 @@ function applyTheme(theme) {
     themeLabel.textContent = theme === 'dark' ? translate('theme.light') : translate('theme.dark');
   }
   if (themeColor) {
-    themeColor.setAttribute('content', theme === 'dark' ? '#191a18' : '#f0e6cf');
+    const lightThemeColor = '#3a271c';
+    const darkThemeColor = '#100d0b';
+    themeColor.setAttribute('content', theme === 'dark' ? darkThemeColor : lightThemeColor);
   }
 }
 
