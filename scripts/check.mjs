@@ -10,7 +10,6 @@ const files = [
 const contents = await Promise.all(files.map((file) => readFile(file, 'utf8')));
 const [home, styles, script, article] = contents;
 await access('assets/parchment-surface.webp');
-await access('assets/parchment-patina.webp');
 
 const assertions = [
   [home.includes('data-filter="tech"'), 'Technology filter is missing'],
@@ -21,13 +20,14 @@ const assertions = [
   [script.includes('localStorage'), 'Theme persistence is missing'],
   [article.includes('class="prose"'), 'Article reading layout is missing'],
   [article.includes('article-return-top') && article.includes('article-return-bottom'), 'Article return links are missing'],
-  [styles.includes('/assets/parchment-surface.webp'), 'Parchment sheet texture is missing'],
-  [styles.includes('/assets/parchment-patina.webp'), 'Non-repeating aged patina is missing'],
-  [styles.includes('body::before') && styles.includes('body::after'), 'Layered parchment sheet is missing'],
-  [styles.includes('clip-path: polygon('), 'Irregular parchment edges are missing'],
+  [styles.includes('/assets/parchment-surface.webp'), 'Parchment fiber texture is missing'],
+  [!styles.includes('/assets/parchment-patina.webp'), 'Water-stain patina should not be used'],
+  [styles.includes('.article-paper::before') && styles.includes('feTurbulence'), 'Procedural crumple texture is missing'],
+  [styles.includes('0 9px 0 var(--parchment-card-layer-deep)'), 'Layered parchment thickness is missing'],
+  [styles.includes('clip-path: polygon('), 'Irregular parchment card edges are missing'],
   [styles.includes('body > header') && styles.includes('body > main'), 'Parchment content stacking is missing'],
   [!styles.includes('/assets/paper-distress.webp'), 'Obsolete distress overlay remains'],
-  [styles.includes('grid-template-columns: minmax(0, 810px) minmax(150px, 180px)'), 'Right-side article contents layout is missing'],
+  [styles.includes('grid-template-columns: minmax(0, 860px) minmax(150px, 180px)'), 'Right-side article contents layout is missing'],
   [styles.includes('p:first-child::first-letter'), 'Manuscript drop cap is missing'],
   [!styles.includes('box-shadow:\n    0 22px 54px'), 'Obsolete article card shadow remains'],
   [!styles.includes('.article-back'), 'Obsolete floating back button styles remain'],
