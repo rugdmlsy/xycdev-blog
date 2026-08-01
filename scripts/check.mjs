@@ -9,7 +9,7 @@ const files = [
 
 const contents = await Promise.all(files.map((file) => readFile(file, 'utf8')));
 const [home, styles, script, article] = contents;
-await access('assets/paper-distress.webp');
+await access('assets/paper-texture.webp');
 
 const assertions = [
   [home.includes('data-filter="tech"'), 'Technology filter is missing'],
@@ -20,8 +20,10 @@ const assertions = [
   [script.includes('localStorage'), 'Theme persistence is missing'],
   [article.includes('class="prose"'), 'Article reading layout is missing'],
   [article.includes('article-return-top') && article.includes('article-return-bottom'), 'Article return links are missing'],
-  [styles.includes('/assets/paper-distress.webp'), 'Aged paper overlay is missing'],
-  [styles.includes('grid-template-columns: minmax(0, 920px) minmax(150px, 190px)'), 'Right-side article contents layout is missing'],
+  [styles.includes('/assets/paper-texture.webp'), 'Paper texture is missing'],
+  [!styles.includes('/assets/paper-distress.webp'), 'Obsolete distress overlay remains'],
+  [styles.includes('grid-template-columns: minmax(0, 800px) minmax(150px, 180px)'), 'Right-side article contents layout is missing'],
+  [!styles.includes('box-shadow:\n    0 22px 54px'), 'Obsolete article card shadow remains'],
   [!styles.includes('.article-back'), 'Obsolete floating back button styles remain'],
 ];
 
