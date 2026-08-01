@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 
 const files = [
   'index.html',
@@ -9,6 +9,7 @@ const files = [
 
 const contents = await Promise.all(files.map((file) => readFile(file, 'utf8')));
 const [home, styles, script, article] = contents;
+await access('assets/paper-distress.webp');
 
 const assertions = [
   [home.includes('data-filter="tech"'), 'Technology filter is missing'],
@@ -18,6 +19,10 @@ const assertions = [
   [!styles.includes('linear-gradient'), 'Gradient styling should not be used'],
   [script.includes('localStorage'), 'Theme persistence is missing'],
   [article.includes('class="prose"'), 'Article reading layout is missing'],
+  [article.includes('article-return-top') && article.includes('article-return-bottom'), 'Article return links are missing'],
+  [styles.includes('/assets/paper-distress.webp'), 'Aged paper overlay is missing'],
+  [styles.includes('grid-template-columns: minmax(0, 920px) minmax(150px, 190px)'), 'Right-side article contents layout is missing'],
+  [!styles.includes('.article-back'), 'Obsolete floating back button styles remain'],
 ];
 
 for (const [condition, message] of assertions) {
