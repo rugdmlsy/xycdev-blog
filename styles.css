@@ -27,6 +27,7 @@
   --parchment-title: #6d3024;
   --parchment-panel: rgba(104, 70, 30, 0.075);
   --parchment-shadow: rgba(25, 12, 5, 0.34);
+  --parchment-patina-opacity: 0.82;
   --max-width: 1180px;
   --serif: "Local Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -57,6 +58,7 @@ html[data-theme="dark"] {
   --parchment-title: #d68a75;
   --parchment-panel: rgba(232, 210, 164, 0.055);
   --parchment-shadow: rgba(0, 0, 0, 0.58);
+  --parchment-patina-opacity: 0.28;
 }
 
 * {
@@ -79,15 +81,31 @@ body {
   transition: background-color 160ms ease, color 160ms ease;
 }
 
-body::before {
+body::before,
+body::after {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
-  z-index: 0;
   width: min(calc(100% - 44px), 1260px);
   pointer-events: none;
   content: "";
+  clip-path: polygon(
+    0.42% 0.18%, 5% 0.05%, 11% 0.17%, 18% 0.03%, 25% 0.15%, 34% 0.01%,
+    43% 0.13%, 51% 0.03%, 60% 0.17%, 68% 0.02%, 77% 0.14%, 85% 0.04%,
+    93% 0.17%, 99.55% 0.08%, 99.72% 6%, 99.47% 15%, 99.7% 25%,
+    99.49% 36%, 99.72% 48%, 99.5% 60%, 99.73% 72%, 99.48% 84%,
+    99.7% 94%, 99.55% 99.82%, 93% 99.72%, 85% 99.9%, 76% 99.76%,
+    67% 99.94%, 58% 99.78%, 49% 99.93%, 40% 99.77%, 31% 99.92%,
+    22% 99.76%, 13% 99.91%, 6% 99.73%, 0.43% 99.82%, 0.24% 93%,
+    0.49% 82%, 0.25% 70%, 0.48% 58%, 0.26% 46%, 0.5% 34%, 0.24% 22%,
+    0.47% 11%
+  );
+  transform: translateX(-50%);
+}
+
+body::before {
+  z-index: 0;
   background-color: var(--paper);
   background-image: url("/assets/parchment-surface.webp");
   background-repeat: repeat;
@@ -96,7 +114,12 @@ body::before {
     0 0 0 1px rgba(66, 42, 21, 0.36),
     0 0 72px var(--parchment-shadow),
     inset 0 0 88px rgba(91, 58, 23, 0.14);
-  transform: translateX(-50%);
+}
+
+body::after {
+  z-index: 1;
+  background: url("/assets/parchment-patina.webp") center / 100% 100% no-repeat;
+  opacity: var(--parchment-patina-opacity);
 }
 
 html[data-theme="dark"] body::before {
@@ -108,11 +131,16 @@ html[data-theme="dark"] body::before {
     inset 0 0 92px rgba(0, 0, 0, 0.34);
 }
 
+html[data-theme="dark"] body::after {
+  filter: brightness(0.7) saturate(0.55);
+  mix-blend-mode: soft-light;
+}
+
 body > header,
 body > main,
 body > footer {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 body[data-page="article"] {
@@ -894,8 +922,12 @@ button {
     background: var(--paper);
   }
 
-  body::before {
+  body::before,
+  body::after {
     width: 100%;
+  }
+
+  body::before {
     box-shadow: none;
   }
 

@@ -10,6 +10,7 @@ const files = [
 const contents = await Promise.all(files.map((file) => readFile(file, 'utf8')));
 const [home, styles, script, article] = contents;
 await access('assets/parchment-surface.webp');
+await access('assets/parchment-patina.webp');
 
 const assertions = [
   [home.includes('data-filter="tech"'), 'Technology filter is missing'],
@@ -21,7 +22,9 @@ const assertions = [
   [article.includes('class="prose"'), 'Article reading layout is missing'],
   [article.includes('article-return-top') && article.includes('article-return-bottom'), 'Article return links are missing'],
   [styles.includes('/assets/parchment-surface.webp'), 'Parchment sheet texture is missing'],
-  [styles.includes('body::before'), 'Continuous parchment sheet is missing'],
+  [styles.includes('/assets/parchment-patina.webp'), 'Non-repeating aged patina is missing'],
+  [styles.includes('body::before') && styles.includes('body::after'), 'Layered parchment sheet is missing'],
+  [styles.includes('clip-path: polygon('), 'Irregular parchment edges are missing'],
   [styles.includes('body > header') && styles.includes('body > main'), 'Parchment content stacking is missing'],
   [!styles.includes('/assets/paper-distress.webp'), 'Obsolete distress overlay remains'],
   [styles.includes('grid-template-columns: minmax(0, 810px) minmax(150px, 180px)'), 'Right-side article contents layout is missing'],
