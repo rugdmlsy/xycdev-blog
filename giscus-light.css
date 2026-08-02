@@ -129,6 +129,17 @@ main .gsc-comment-box-tabs {
   border-bottom-color: var(--color-border-muted);
 }
 
+main .btn-primary {
+  border-color: rgb(86 23 18 / 45%);
+  background-color: #8f2d24;
+  color: #fffaf0;
+}
+
+main .btn-primary:hover {
+  border-color: #692019;
+  background-color: #7d261f;
+}
+
 main a {
   text-underline-offset: 3px;
 }

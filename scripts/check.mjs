@@ -15,7 +15,7 @@ const assertions = [
   [script.includes('updateGiscus') && script.includes('giscus-dark.css') && script.includes('giscus-light.css'), 'Custom Giscus theme synchronization is missing'],
   [giscusLight.includes('--color-canvas-default: #f4ecd9') && giscusLight.includes('--color-accent-fg: #8f2d24'), 'Giscus light palette is missing'],
   [giscusDark.includes('--color-canvas-default: #1d1d1a') && giscusDark.includes('--color-accent-fg: #d27a6e'), 'Giscus dark palette is missing'],
-  [home.includes('/styles.css?v=20260802-8') && article.includes('/script.js?v=20260802-8'), 'Versioned production assets are missing'],
+  [home.includes('/styles.css?v=20260802-9') && article.includes('/script.js?v=20260802-9'), 'Versioned production assets are missing'],
   [styles.includes('overflow-x: clip;') && styles.includes('touch-action: pan-y;'), 'Horizontal viewport locking is missing'],
   [script.includes('articleContent.getBoundingClientRect().bottom'), 'Article-bounded reading progress is missing'],
   [!styles.includes('linear-gradient'), 'Gradient styling should not be used'],
