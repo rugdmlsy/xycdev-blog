@@ -25,5 +25,5 @@ Comments use Giscus backed by GitHub Discussions in this repository.
 ## Deploy
 
 ```sh
-npx wrangler pages deploy . --project-name xycdev-blog
+npx wrangler pages deploy . --project-name xycdev-journal
 ```

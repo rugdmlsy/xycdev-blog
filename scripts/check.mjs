@@ -1,12 +1,13 @@
 import { access, readFile } from 'node:fs/promises';
 
-const files = ['index.html', 'styles.css', 'script.js', 'posts/placeholder.html'];
-const [home, styles, script, article] = await Promise.all(files.map((file) => readFile(file, 'utf8')));
+const files = ['index.html', 'styles.css', 'script.js', 'posts/placeholder.html', '404.html'];
+const [home, styles, script, article, notFound] = await Promise.all(files.map((file) => readFile(file, 'utf8')));
 await access('assets/parchment-surface.webp');
 
 const assertions = [
   [home.includes('/posts/placeholder.html'), 'Placeholder article link is missing'],
   [!home.includes('SWE-Replay') && !home.includes('Rollback 后') && !article.includes('Coding Agent'), 'Old sample content remains'],
+  [notFound.includes('<meta name="robots" content="noindex">') && notFound.includes('页面不存在'), 'Dedicated 404 page is missing'],
   [home.includes('data-year="2026"') && home.includes('class="archive-list"'), 'Functional archive markup is missing'],
   [script.includes('data-archive-year') && script.includes('applyPostFilters'), 'Archive filtering logic is missing'],
   [script.includes('Intl.DateTimeFormat') && home.includes('class="now-updated"'), 'Localized Now update date is missing'],
