@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="xycdev 的技术与个人博客。">
+  <meta name="description" content="博客描述占位文字。">
   <meta name="theme-color" content="#f4ecd9">
   <title>xycdev journal</title>
-  <link rel="stylesheet" href="/styles.css?v=20260802-6">
-  <script src="/script.js?v=20260802-6" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=20260802-7">
+  <script src="/script.js?v=20260802-7" defer></script>
 </head>
 <body id="top" data-page="home">
   <a class="skip-link" href="#content" data-i18n="common.skip">跳到正文</a>
@@ -17,31 +17,24 @@
       <span class="site-name-main">xycdev</span>
       <span class="site-name-sub">journal</span>
     </a>
-
     <nav class="site-nav" aria-label="主要导航" data-i18n-aria="common.primaryNav">
       <a class="is-current" href="/" data-i18n="nav.writing">文章</a>
       <a href="#about" data-i18n="nav.about">关于</a>
       <a href="https://xycdev.com" data-i18n="nav.mainSite">主站 ↗</a>
     </nav>
-
     <div class="header-controls">
-      <button class="language-toggle" type="button" aria-label="Switch to English">
-        <span class="language-toggle-label">EN</span>
-      </button>
+      <button class="language-toggle" type="button" aria-label="Switch to English"><span class="language-toggle-label">EN</span></button>
       <button class="theme-toggle" type="button" aria-label="切换深浅色主题" data-i18n-aria="theme.toggleAria">
-        <span aria-hidden="true">◐</span>
-        <span class="theme-toggle-label">深色</span>
+        <span aria-hidden="true">◐</span><span class="theme-toggle-label">深色</span>
       </button>
     </div>
   </header>
 
   <main id="content" class="page-shell">
     <section class="intro" aria-labelledby="intro-title">
-      <p class="intro-kicker" data-i18n="home.kicker">技术笔记与生活记录</p>
-      <h1 id="intro-title" data-i18n="home.title">记录正在研究、构建和理解的事情。</h1>
-      <p class="intro-copy" data-i18n="home.intro">
-        这里主要写软件系统、AI Agent、开发工具，也保留一部分与科研、旅居和日常兴趣有关的记录。
-      </p>
+      <p class="intro-kicker" data-i18n="home.kicker">栏目说明占位文字</p>
+      <h1 id="intro-title" data-i18n="home.title">博客主页标题占位文字。</h1>
+      <p class="intro-copy" data-i18n="home.intro">这里是博客副标题与简介的占位内容，正式发布前可替换为对博客主题、作者和内容范围的简短说明。</p>
     </section>
 
     <section class="featured" aria-labelledby="featured-title">
@@ -49,16 +42,12 @@
       <article class="featured-card">
         <div class="featured-meta">
           <span class="category category-tech" data-i18n="category.tech">技术</span>
-          <time datetime="2026-08-01">2026.08.01</time>
-          <span data-i18n="meta.read9">9 分钟阅读</span>
+          <time datetime="2026-08-02">2026.08.02</time>
+          <span data-i18n="meta.read3">3 分钟阅读</span>
         </div>
-        <h2 id="featured-title">
-          <a href="/posts/why-agents-rarely-rollback.html" data-i18n="post.rollback.title">为什么 Coding Agent 很少主动选择 Rollback</a>
-        </h2>
-        <p data-i18n="post.rollback.summary">
-          在 SWE-bench 与 Terminal-Bench 的实验中，即使工具已经提供 rollback 接口，agent 仍然几乎不会主动调用。本文整理目前的实验观察、可能原因，以及下一步更合理的触发设计。
-        </p>
-        <a class="text-link" href="/posts/why-agents-rarely-rollback.html"><span data-i18n="common.readMore">阅读全文</span> <span aria-hidden="true">→</span></a>
+        <h2 id="featured-title"><a href="/posts/placeholder.html" data-i18n="post.placeholder.title">占位文章标题</a></h2>
+        <p data-i18n="post.placeholder.summary">这是一篇用于确认博客排版、导航、归档与评论功能的占位文章，之后可直接替换为正式内容。</p>
+        <a class="text-link" href="/posts/placeholder.html"><span data-i18n="common.readMore">阅读全文</span> <span aria-hidden="true">→</span></a>
       </article>
     </section>
 
@@ -74,114 +63,48 @@
         </div>
 
         <div class="post-list" aria-live="polite">
-          <article class="post-row" data-category="tech">
-            <div class="post-date"><time datetime="2026-07-31">07.31</time><span>2026</span></div>
+          <article class="post-row" data-category="tech" data-year="2026">
+            <div class="post-date"><time datetime="2026-08-02">08.02</time><span>2026</span></div>
             <div class="post-main">
-              <div class="post-meta"><span class="category category-tech" data-i18n="category.tech">技术</span><span data-i18n="tag.researchNotes">研究笔记</span></div>
-              <h3><a href="#" data-i18n="post.sweReplay.title">从 SWE-Replay 看 Coding Agent 的测试时扩展</a></h3>
-              <p data-i18n="post.sweReplay.summary">重复执行并不只是增加采样次数，更重要的是如何保存、比较和复用失败轨迹。</p>
-            </div>
-            <span class="post-arrow" aria-hidden="true">↗</span>
-          </article>
-
-          <article class="post-row" data-category="tech">
-            <div class="post-date"><time datetime="2026-07-29">07.29</time><span>2026</span></div>
-            <div class="post-main">
-              <div class="post-meta"><span class="category category-tech" data-i18n="category.tech">技术</span><span data-i18n="tag.engineeringLog">工程记录</span></div>
-              <h3><a href="#" data-i18n="post.mcpHost.title">把 Local Shell MCP 拆成 Host 与实例之后</a></h3>
-              <p data-i18n="post.mcpHost.summary">一次围绕 MCP 网关、OAuth、远程 worker 和具体工具实例边界的重构记录。</p>
-            </div>
-            <span class="post-arrow" aria-hidden="true">↗</span>
-          </article>
-
-          <article class="post-row" data-category="personal">
-            <div class="post-date"><time datetime="2026-07-28">07.28</time><span>2026</span></div>
-            <div class="post-main">
-              <div class="post-meta"><span class="category category-personal" data-i18n="category.personal">个人</span><span data-i18n="tag.researchLife">科研</span></div>
-              <h3><a href="#" data-i18n="post.advisorMeeting.title">每周和导师开会，我应该讲什么</a></h3>
-              <p data-i18n="post.advisorMeeting.summary">相比逐条汇报完成事项，更有效的结构是：结论、证据、尚未解决的问题和下一步选择。</p>
-            </div>
-            <span class="post-arrow" aria-hidden="true">↗</span>
-          </article>
-
-          <article class="post-row" data-category="tech">
-            <div class="post-date"><time datetime="2026-07-27">07.27</time><span>2026</span></div>
-            <div class="post-main">
-              <div class="post-meta"><span class="category category-tech" data-i18n="category.tech">技术</span><span data-i18n="tag.design">设计</span></div>
-              <h3><a href="#" data-i18n="post.rollbackMemory.title">Rollback 后，Agent 应该记住什么</a></h3>
-              <p data-i18n="post.rollbackMemory.summary">完整保留 discarded history、只保留结构化总结，还是重新验证旧结论，各自会引入什么问题。</p>
-            </div>
-            <span class="post-arrow" aria-hidden="true">↗</span>
-          </article>
-
-          <article class="post-row" data-category="personal">
-            <div class="post-date"><time datetime="2026-07-24">07.24</time><span>2026</span></div>
-            <div class="post-main">
-              <div class="post-meta"><span class="category category-personal" data-i18n="category.personal">个人</span><span data-i18n="tag.travel">旅居</span></div>
-              <h3><a href="#" data-i18n="post.slowTravel.title">在一个陌生城市住两个月，除了工作还能做什么</a></h3>
-              <p data-i18n="post.slowTravel.summary">给长期旅居设置一些弱目标：固定路线、地方活动、持续练习和低压力的社交入口。</p>
-            </div>
-            <span class="post-arrow" aria-hidden="true">↗</span>
-          </article>
-
-          <article class="post-row" data-category="tech">
-            <div class="post-date"><time datetime="2026-07-20">07.20</time><span>2026</span></div>
-            <div class="post-main">
-              <div class="post-meta"><span class="category category-tech" data-i18n="category.tech">技术</span><span data-i18n="tag.paperNotes">论文阅读</span></div>
-              <h3><a href="#" data-i18n="post.deltaBox.title">DeltaBox 对 Agent Rollback 有什么启示</a></h3>
-              <p data-i18n="post.deltaBox.summary">恢复环境状态只是第一步；真正困难的是恢复后如何处理依赖旧状态形成的推理和记忆。</p>
+              <div class="post-meta"><span class="category category-tech" data-i18n="category.tech">技术</span><span data-i18n="tag.placeholder">占位内容</span></div>
+              <h3><a href="/posts/placeholder.html" data-i18n="post.placeholder.title">占位文章标题</a></h3>
+              <p data-i18n="post.placeholder.summary">这是一篇用于确认博客排版、导航、归档与评论功能的占位文章，之后可直接替换为正式内容。</p>
             </div>
             <span class="post-arrow" aria-hidden="true">↗</span>
           </article>
         </div>
-
-        <p class="empty-state" hidden data-i18n="home.empty">该分类暂时没有文章。</p>
+        <p class="empty-state" hidden data-i18n="home.empty">当前筛选条件下没有文章。</p>
       </section>
 
       <aside class="sidebar" aria-label="博客信息" data-i18n-aria="home.sidebarAria">
         <section class="side-block" id="about">
           <h2 data-i18n="home.aboutTitle">关于这个博客</h2>
-          <p data-i18n="home.aboutText">用于整理长期值得保留的技术记录与个人思考。文章可能从实验报告、开发日志或每周笔记逐步演化而来。</p>
+          <p data-i18n="home.aboutText">这里是 About 区域的占位文字，可用于介绍作者、博客定位与主要内容。</p>
         </section>
 
         <section class="side-block now-block">
           <h2>Now</h2>
           <dl>
-            <div>
-              <dt data-i18n="home.nowResearch">研究</dt>
-              <dd data-i18n="home.nowResearchText">可靠、可回滚的 AI Agent 系统</dd>
-            </div>
-            <div>
-              <dt data-i18n="home.nowBuilding">构建</dt>
-              <dd data-i18n="home.nowBuildingText">Local MCP Host 与实验基础设施</dd>
-            </div>
-            <div>
-              <dt data-i18n="home.nowOther">其他</dt>
-              <dd data-i18n="home.nowOtherText">电吉他、独立游戏与旅居计划</dd>
-            </div>
+            <div><dt data-i18n="home.nowFocus">当前重点</dt><dd data-i18n="home.nowFocusText">Now 内容占位文字</dd></div>
+            <div><dt data-i18n="home.nowBuilding">正在构建</dt><dd data-i18n="home.nowBuildingText">项目状态占位文字</dd></div>
+            <div><dt data-i18n="home.nowElsewhere">其他动态</dt><dd data-i18n="home.nowElsewhereText">个人动态占位文字</dd></div>
           </dl>
-          <p class="side-note" data-i18n="home.updated">更新于 2026 年 8 月</p>
+          <p class="side-note"><span data-i18n="home.updated">更新于</span> <time class="now-updated" datetime="2026-08-02">2026-08-02</time></p>
         </section>
 
         <section class="side-block archive-block">
           <h2 data-i18n="home.archive">归档</h2>
-          <a href="#">2026 <span>18</span></a>
-          <a href="#">2025 <span>7</span></a>
+          <div class="archive-list" aria-label="按年份筛选文章" data-i18n-aria="home.archiveAria"></div>
+          <button class="archive-reset" type="button" hidden data-i18n="home.clearArchive">清除年份筛选</button>
         </section>
       </aside>
     </div>
   </main>
 
   <footer class="site-footer">
-    <div>
-      <strong>xycdev journal</strong>
-      <span data-i18n="footer.categories">技术与个人</span>
-    </div>
+    <div><strong>xycdev journal</strong><span data-i18n="footer.categories">技术与个人</span></div>
     <p>© 2026 xycdev</p>
-    <div class="footer-links">
-      <a href="#">RSS</a>
-      <a href="#top" data-i18n="common.backTop">回到顶部 ↑</a>
-    </div>
+    <div class="footer-links"><a href="/feed.xml">RSS</a><a href="#top" data-i18n="common.backTop">回到顶部 ↑</a></div>
   </footer>
 </body>
 </html>

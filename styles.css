@@ -640,25 +640,44 @@ button {
   font-size: 0.64rem !important;
 }
 
-.archive-block a {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted);
-  font-family: var(--mono);
-  font-size: 0.72rem;
-}
-
-.archive-block a:first-of-type {
+.archive-list {
   margin-top: 12px;
   border-top: 1px solid var(--line);
 }
 
-.archive-block a:hover,
-.archive-block a:focus-visible {
+.archive-list button,
+.archive-reset {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.archive-list button {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.archive-list button:hover,
+.archive-list button:focus-visible,
+.archive-list button.is-active,
+.archive-reset:hover,
+.archive-reset:focus-visible {
   color: var(--accent);
   outline: none;
+}
+
+.archive-reset {
+  margin-top: 10px;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .site-footer {
@@ -1256,6 +1275,17 @@ html[data-theme="dark"] .article-paper::after {
 
 .engagement-heading h2 {
   font-size: 1.35rem;
+}
+
+.giscus-note {
+  margin: -12px 0 28px !important;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.giscus,
+.giscus-frame {
+  width: 100%;
 }
 
 .like-button {
