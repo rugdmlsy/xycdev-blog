@@ -4,6 +4,8 @@ const themeToggle = document.querySelector('.theme-toggle');
 const themeLabel = document.querySelector('.theme-toggle-label');
 const languageToggle = document.querySelector('.language-toggle');
 const languageLabel = document.querySelector('.language-toggle-label');
+const articleStyleToggle = document.querySelector('.article-style-toggle');
+const articleStyleLabel = document.querySelector('.article-style-toggle-label');
 const themeColor = document.querySelector('meta[name="theme-color"]');
 const description = document.querySelector('meta[name="description"]');
 
@@ -22,6 +24,9 @@ const translations = {
     'theme.toggleAria': '切换深浅色主题',
     'theme.dark': '深色',
     'theme.light': '浅色',
+    'articleStyle.toggleAria': '切换正文版式',
+    'articleStyle.parchment': '羊皮纸',
+    'articleStyle.editorial': '简洁',
     'category.tech': '技术',
     'category.personal': '个人',
     'filter.all': '全部',
@@ -117,6 +122,9 @@ const translations = {
     'theme.toggleAria': 'Switch color theme',
     'theme.dark': 'Dark',
     'theme.light': 'Light',
+    'articleStyle.toggleAria': 'Switch article layout',
+    'articleStyle.parchment': 'Parchment',
+    'articleStyle.editorial': 'Editorial',
     'category.tech': 'Technology',
     'category.personal': 'Personal',
     'filter.all': 'All',
@@ -219,6 +227,21 @@ function applyTheme(theme) {
   }
 }
 
+function applyArticleStyle(style) {
+  if (page !== 'article') return;
+
+  const activeStyle = style === 'parchment' ? 'parchment' : 'editorial';
+  root.dataset.articleStyle = activeStyle;
+
+  if (articleStyleLabel) {
+    articleStyleLabel.textContent = activeStyle === 'parchment'
+      ? translate('articleStyle.editorial')
+      : translate('articleStyle.parchment');
+  }
+
+  articleStyleToggle?.setAttribute('aria-pressed', String(activeStyle === 'parchment'));
+}
+
 function updateDocumentMetadata() {
   if (page === 'article') {
     document.title = `${translate('post.rollback.title')} — xycdev journal`;
@@ -252,18 +275,27 @@ function applyLanguage(language) {
   }
 
   applyTheme(root.dataset.theme || 'light');
+  applyArticleStyle(root.dataset.articleStyle || 'editorial');
   updateDocumentMetadata();
 }
 
 const storedTheme = localStorage.getItem('xycdev-blog-theme');
+const storedArticleStyle = localStorage.getItem('xycdev-blog-article-style');
 const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 applyTheme(storedTheme || preferredTheme);
+applyArticleStyle(storedArticleStyle || 'editorial');
 applyLanguage(activeLanguage);
 
 themeToggle?.addEventListener('click', () => {
   const nextTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
   applyTheme(nextTheme);
   localStorage.setItem('xycdev-blog-theme', nextTheme);
+});
+
+articleStyleToggle?.addEventListener('click', () => {
+  const nextStyle = root.dataset.articleStyle === 'parchment' ? 'editorial' : 'parchment';
+  applyArticleStyle(nextStyle);
+  localStorage.setItem('xycdev-blog-article-style', nextStyle);
 });
 
 languageToggle?.addEventListener('click', () => {
