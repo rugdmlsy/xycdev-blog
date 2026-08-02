@@ -131,6 +131,42 @@ html[data-theme="dark"] body::before {
     inset 0 0 76px rgba(0, 0, 0, 0.28);
 }
 
+body[data-page="home"] {
+  --paper: #f4ecd9;
+  --paper-deep: #e8deca;
+  --ink: #2d2b26;
+  --muted: #6f6b61;
+  --faint: #999183;
+  --line: #d8cdb8;
+  --line-strong: #afa38f;
+  --accent: #8f2d24;
+  --accent-soft: #eee0dc;
+  --personal-soft: #dee8e3;
+  background-color: var(--paper);
+  background-image: url("/assets/parchment-surface.webp");
+  background-repeat: repeat;
+  background-size: 640px 640px;
+  background-blend-mode: soft-light;
+}
+
+html[data-theme="dark"] body[data-page="home"] {
+  --paper: #1d1d1a;
+  --paper-deep: #282721;
+  --ink: #e7e2d7;
+  --muted: #aaa69c;
+  --faint: #797971;
+  --line: #383934;
+  --line-strong: #595a53;
+  --accent: #d27a6e;
+  --accent-soft: #3b2926;
+  --personal-soft: #243531;
+  background-blend-mode: multiply;
+}
+
+body[data-page="home"]::before {
+  content: none;
+}
+
 body > header,
 body > main,
 body > footer {
@@ -334,13 +370,14 @@ button {
 }
 
 .intro h1 {
-  max-width: 730px;
+  max-width: 820px;
   margin: 0;
+  color: var(--ink);
   font-family: var(--serif);
-  font-size: clamp(2.25rem, 5vw, 4.3rem);
+  font-size: clamp(2.3rem, 4.8vw, 4.1rem);
   font-weight: 600;
   letter-spacing: -0.045em;
-  line-height: 1.14;
+  line-height: 1.12;
 }
 
 .intro-copy {
@@ -381,6 +418,7 @@ button {
 .featured-card h2 {
   max-width: 830px;
   margin: 0;
+  color: var(--ink);
   font-family: var(--serif);
   font-size: clamp(1.9rem, 3.5vw, 3.2rem);
   font-weight: 600;
