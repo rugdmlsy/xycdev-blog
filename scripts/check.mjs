@@ -15,6 +15,7 @@ const assertions = [
   [home.includes('data-filter="tech"'), 'Technology filter is missing'],
   [home.includes('data-filter="personal"'), 'Personal filter is missing'],
   [home.includes('/posts/why-agents-rarely-rollback.html'), 'Featured article link is missing'],
+  [home.includes('/styles.css?v=20260802-1') && home.includes('/script.js?v=20260802-1') && article.includes('/styles.css?v=20260802-1') && article.includes('/script.js?v=20260802-1'), 'Versioned static assets are missing'],
   [styles.includes('@media (max-width: 680px)'), 'Mobile styles are missing'],
   [!styles.includes('linear-gradient'), 'Gradient styling should not be used'],
   [styles.includes('--paper: #f2dfb5;') && styles.includes('--parchment-card: #f7e4b8;'), 'Bright light parchment palette is missing'],
