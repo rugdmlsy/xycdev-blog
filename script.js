@@ -328,18 +328,24 @@ filterButtons.forEach((button) => {
 const readingProgress = document.querySelector('.reading-progress span');
 
 if (readingProgress) {
+  let renderedProgress = -1;
+
   function updateReadingProgress() {
     const scrollingElement = document.scrollingElement || document.documentElement;
-    const scrollable = Math.max(scrollingElement.scrollHeight - window.innerHeight, 0);
-    const scrollTop = scrollingElement.scrollTop || window.scrollY || 0;
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const scrollable = Math.max(scrollingElement.scrollHeight - viewportHeight, 0);
+    const scrollTop = Math.max(scrollingElement.scrollTop, window.scrollY || 0);
     const progress = scrollable > 0 ? Math.min(Math.max(scrollTop / scrollable, 0), 1) : 0;
-    readingProgress.style.transform = `scaleX(${progress}) translateZ(0)`;
+
+    if (Math.abs(progress - renderedProgress) > 0.0001) {
+      readingProgress.style.width = `${progress * 100}%`;
+      renderedProgress = progress;
+    }
+
+    window.requestAnimationFrame(updateReadingProgress);
   }
 
-  window.addEventListener('scroll', updateReadingProgress, { passive: true });
-  window.addEventListener('resize', updateReadingProgress);
-  window.visualViewport?.addEventListener('resize', updateReadingProgress);
-  updateReadingProgress();
+  window.requestAnimationFrame(updateReadingProgress);
 }
 
 
