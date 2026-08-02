@@ -99,6 +99,19 @@ main {
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+html,
+body {
+  background-color: #1d1d1a !important;
+  color-scheme: dark;
+}
+
+main,
+main .gsc-main,
+main .gsc-reactions,
+main .gsc-comments {
+  background-color: #1d1d1a !important;
+}
+
 main .pagination-loader-container {
   background-image: url("https://github.com/images/modules/pulls/progressive-disclosure-line-dark.svg");
 }
