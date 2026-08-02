@@ -72,7 +72,7 @@ main {
   --color-fg-muted: #6f6b61;
   --color-fg-subtle: #8e8679;
   --color-canvas-default: #f4ecd9;
-  --color-canvas-overlay: #f7f0df;
+  --color-canvas-overlay: #eee5d3;
   --color-canvas-inset: #e8deca;
   --color-canvas-subtle: #eee5d3;
   --color-border-default: #afa38f;
@@ -127,6 +127,20 @@ main .gsc-comment {
 
 main .gsc-comment-box-tabs {
   border-bottom-color: var(--color-border-muted);
+}
+
+main .gsc-reactions-popover {
+  border-color: var(--color-border-default);
+  background-color: var(--color-canvas-subtle);
+  box-shadow: 0 8px 22px rgb(58 45 34 / 12%);
+}
+
+main .gsc-reactions-button {
+  background-color: var(--color-canvas-subtle);
+}
+
+main .gsc-emoji-button:hover:not(:disabled) {
+  background-color: var(--color-canvas-inset);
 }
 
 main .btn-primary {

@@ -62,7 +62,7 @@ let activeLanguage = localStorage.getItem('xycdev-blog-language') || 'zh';
 if (!translations[activeLanguage]) activeLanguage = 'zh';
 const translate = (key) => translations[activeLanguage][key] ?? translations.zh[key] ?? key;
 
-const GISCUS_THEME_VERSION = '20260802-2';
+const GISCUS_THEME_VERSION = '20260802-3';
 function giscusTheme() {
   const filename = root.dataset.theme === 'dark' ? 'giscus-dark.css' : 'giscus-light.css';
   return `https://blog.xycdev.com/${filename}?v=${GISCUS_THEME_VERSION}`;
