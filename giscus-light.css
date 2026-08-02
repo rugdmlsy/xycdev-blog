@@ -102,6 +102,10 @@ main {
 html,
 body {
   background-color: #f4ecd9 !important;
+  background-image: url("https://blog.xycdev.com/assets/parchment-surface.webp");
+  background-repeat: repeat;
+  background-size: 640px 640px;
+  background-blend-mode: soft-light;
   color-scheme: light;
 }
 
@@ -109,7 +113,7 @@ main,
 main .gsc-main,
 main .gsc-reactions,
 main .gsc-comments {
-  background-color: #f4ecd9 !important;
+  background-color: transparent !important;
 }
 
 main .pagination-loader-container {
