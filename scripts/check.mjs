@@ -29,7 +29,7 @@ const assertions = [
   [styles.includes("surfaceScale='31'"), 'Pronounced crumple relief is missing'],
   [styles.includes('--article-paper-shape: polygon(') && styles.includes('clip-path: var(--article-paper-shape)'), 'Irregular parchment card edges are missing'],
   [styles.includes('0.72% 0%, 99.28% 0%') && styles.includes('0.72% 100%'), 'Straight horizontal parchment edges are missing'],
-  [styles.includes('98.72% 36%') && styles.includes('1.28% 36%'), 'Fine torn left and right parchment edges are missing'],
+  [styles.includes('98.55% 29.55%') && styles.includes('1.45% 29.55%'), 'Narrow torn left and right parchment chips are missing'],
   [styles.includes('body > header') && styles.includes('body > main'), 'Parchment content stacking is missing'],
   [!styles.includes('/assets/paper-distress.webp'), 'Obsolete distress overlay remains'],
   [styles.includes('grid-template-columns: minmax(0, 860px) minmax(150px, 180px)'), 'Right-side article contents layout is missing'],
