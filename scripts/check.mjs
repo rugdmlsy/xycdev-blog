@@ -17,6 +17,8 @@ const assertions = [
   [home.includes('/posts/why-agents-rarely-rollback.html'), 'Featured article link is missing'],
   [styles.includes('@media (max-width: 680px)'), 'Mobile styles are missing'],
   [!styles.includes('linear-gradient'), 'Gradient styling should not be used'],
+  [styles.includes('--paper: #f2dfb5;') && styles.includes('--parchment-card: #f0d79f;'), 'Bright light parchment palette is missing'],
+  [styles.includes('background-blend-mode: soft-light;') && styles.includes('html[data-theme="dark"] body[data-page="article"]'), 'Light-only soft texture blending is missing'],
   [script.includes('localStorage'), 'Theme persistence is missing'],
   [article.includes('class="prose"'), 'Article reading layout is missing'],
   [!article.includes('class="article-paper-stack"'), 'Stacked parchment wrapper should be removed'],

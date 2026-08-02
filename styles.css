@@ -5,34 +5,34 @@
 
 :root {
   color-scheme: light;
-  --paper: #ead5a3;
-  --paper-deep: #dbc18a;
-  --ink: #3c3025;
-  --muted: #725f49;
-  --faint: #9a805e;
-  --line: #bfa579;
-  --line-strong: #92734c;
-  --accent: #8f2d24;
-  --accent-soft: #eee0dc;
+  --paper: #f2dfb5;
+  --paper-deep: #e6cb94;
+  --ink: #3a2d22;
+  --muted: #6e5943;
+  --faint: #927754;
+  --line: #cdb488;
+  --line-strong: #9f7d52;
+  --accent: #913126;
+  --accent-soft: #f3e6e0;
   --personal: #315b52;
-  --personal-soft: #dee8e3;
-  --panel: rgba(255, 255, 255, 0.2);
-  --parchment-outer: #3a271c;
-  --parchment-sheet: #cbb99a;
-  --parchment-card: #e2c78f;
+  --personal-soft: #e5eee9;
+  --panel: rgba(255, 255, 255, 0.28);
+  --parchment-outer: #594231;
+  --parchment-sheet: #e6d3ae;
+  --parchment-card: #f0d79f;
   --parchment-card-edge: #69451f;
-  --parchment-card-layer: #c7924b;
-  --parchment-card-layer-deep: #5b3719;
-  --parchment-card-shadow: rgba(36, 18, 5, 0.78);
+  --parchment-card-layer: #d3a45f;
+  --parchment-card-layer-deep: #704a25;
+  --parchment-card-shadow: rgba(48, 28, 10, 0.62);
   --parchment-crumple-opacity: 0.52;
   --parchment-ink: #3c3025;
-  --parchment-muted: #725f49;
-  --parchment-faint: #9a805e;
-  --parchment-line: #b89b70;
-  --parchment-line-strong: #92734c;
-  --parchment-title: #6d3024;
-  --parchment-panel: rgba(104, 70, 30, 0.075);
-  --parchment-shadow: rgba(25, 12, 5, 0.34);
+  --parchment-muted: #6e5943;
+  --parchment-faint: #927754;
+  --parchment-line: #c8ab7d;
+  --parchment-line-strong: #9f7d52;
+  --parchment-title: #743328;
+  --parchment-panel: rgba(121, 82, 35, 0.055);
+  --parchment-shadow: rgba(33, 17, 7, 0.25);
   --max-width: 1180px;
   --serif: "Local Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -104,6 +104,7 @@ body::before {
   background-image: url("/assets/parchment-surface.webp");
   background-repeat: repeat;
   background-size: 640px 640px;
+  background-blend-mode: soft-light;
   box-shadow:
     0 0 0 1px rgba(66, 42, 21, 0.28),
     0 0 62px var(--parchment-shadow),
@@ -140,6 +141,10 @@ body[data-page="article"] {
   background-image: url("/assets/parchment-surface.webp");
   background-repeat: repeat;
   background-size: 640px 640px;
+  background-blend-mode: soft-light;
+}
+
+html[data-theme="dark"] body[data-page="article"] {
   background-blend-mode: multiply;
 }
 
@@ -807,6 +812,7 @@ button {
   background-image: url("/assets/parchment-surface.webp");
   background-repeat: repeat;
   background-size: 640px 640px;
+  background-blend-mode: soft-light;
   clip-path: var(--article-paper-shape);
   box-shadow:
     0 13px 0 var(--parchment-card-layer),
