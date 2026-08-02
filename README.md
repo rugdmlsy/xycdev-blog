@@ -20,7 +20,7 @@ npm run check
 
 The deployed site intentionally contains one placeholder article at `posts/placeholder.html`. Replace its metadata and body when publishing the first real post, then add a matching row to `index.html` with `data-category` and `data-year`; the Archive counts and filters are generated automatically.
 
-Comments use Giscus backed by GitHub Discussions in this repository.
+Comments use Giscus backed by GitHub Discussions in this repository. The iframe loads the hosted `giscus-light.css` or `giscus-dark.css` palette so its colors follow the journal theme.
 
 ## Deploy
 

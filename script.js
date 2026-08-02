@@ -62,7 +62,11 @@ let activeLanguage = localStorage.getItem('xycdev-blog-language') || 'zh';
 if (!translations[activeLanguage]) activeLanguage = 'zh';
 const translate = (key) => translations[activeLanguage][key] ?? translations.zh[key] ?? key;
 
-function giscusTheme() { return root.dataset.theme === 'dark' ? 'dark_dimmed' : 'light'; }
+const GISCUS_THEME_VERSION = '20260802-1';
+function giscusTheme() {
+  const filename = root.dataset.theme === 'dark' ? 'giscus-dark.css' : 'giscus-light.css';
+  return `https://blog.xycdev.com/${filename}?v=${GISCUS_THEME_VERSION}`;
+}
 function giscusLanguage() { return activeLanguage === 'zh' ? 'zh-CN' : 'en'; }
 
 function updateGiscus() {
