@@ -19,12 +19,12 @@
   --panel: rgba(255, 255, 255, 0.28);
   --parchment-outer: #594231;
   --parchment-sheet: #e6d3ae;
-  --parchment-card: #f0d79f;
-  --parchment-card-edge: #69451f;
-  --parchment-card-layer: #d3a45f;
-  --parchment-card-layer-deep: #704a25;
-  --parchment-card-shadow: rgba(48, 28, 10, 0.62);
-  --parchment-crumple-opacity: 0.52;
+  --parchment-card: #f7e4b8;
+  --parchment-card-edge: #765229;
+  --parchment-card-layer: #dbb471;
+  --parchment-card-layer-deep: #7c552d;
+  --parchment-card-shadow: rgba(48, 28, 10, 0.54);
+  --parchment-crumple-opacity: 0.48;
   --parchment-ink: #3c3025;
   --parchment-muted: #6e5943;
   --parchment-faint: #927754;
@@ -821,8 +821,8 @@ button {
     -16px 44px 46px rgba(55, 33, 13, 0.3),
     18px 48px 54px rgba(55, 33, 13, 0.34),
     0 78px 126px var(--parchment-card-shadow),
-    inset 0 0 0 2px rgba(255, 244, 211, 0.32),
-    inset 0 0 64px rgba(87, 53, 20, 0.22);
+    inset 0 0 0 2px rgba(255, 248, 224, 0.42),
+    inset 0 0 64px rgba(87, 53, 20, 0.14);
 }
 
 .article-paper::before,
@@ -843,14 +843,14 @@ button {
 
 .article-paper::after {
   z-index: 1;
-  border-top: 2px solid rgba(255, 242, 204, 0.38);
+  border-top: 2px solid rgba(255, 249, 226, 0.52);
   box-shadow:
-    inset 0 8px 0 rgba(255, 239, 193, 0.34),
-    inset 0 20px 18px rgba(99, 61, 24, 0.3),
-    inset 6px 0 12px rgba(255, 238, 194, 0.12),
-    inset -8px 0 15px rgba(78, 45, 16, 0.22),
-    inset 0 -16px 26px rgba(69, 39, 14, 0.38),
-    inset 0 0 58px rgba(83, 49, 18, 0.22);
+    inset 0 8px 0 rgba(255, 246, 215, 0.42),
+    inset 0 20px 18px rgba(99, 61, 24, 0.19),
+    inset 6px 0 12px rgba(255, 244, 207, 0.16),
+    inset -8px 0 15px rgba(78, 45, 16, 0.14),
+    inset 0 -16px 26px rgba(69, 39, 14, 0.27),
+    inset 0 0 58px rgba(83, 49, 18, 0.14);
 }
 
 html[data-theme="dark"] .article-paper {
