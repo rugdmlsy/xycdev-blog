@@ -325,8 +325,7 @@ button {
 }
 
 .language-toggle,
-.theme-toggle,
-.article-style-toggle {
+.theme-toggle {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -341,9 +340,7 @@ button {
 .language-toggle:hover,
 .language-toggle:focus-visible,
 .theme-toggle:hover,
-.theme-toggle:focus-visible,
-.article-style-toggle:hover,
-.article-style-toggle:focus-visible {
+.theme-toggle:focus-visible {
   color: var(--ink);
   outline: none;
 }
@@ -1098,7 +1095,6 @@ html[data-theme="dark"] .article-paper::after {
   }
 
   .theme-toggle-label,
-  .article-style-toggle-label,
   .site-name-sub {
     display: none;
   }
