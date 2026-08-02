@@ -326,6 +326,7 @@ filterButtons.forEach((button) => {
 });
 
 const readingProgress = document.querySelector('.reading-progress span');
+const articleContent = document.querySelector('.article-paper');
 
 if (readingProgress) {
   let renderedProgress = -1;
@@ -333,9 +334,13 @@ if (readingProgress) {
   function updateReadingProgress() {
     const scrollingElement = document.scrollingElement || document.documentElement;
     const viewportHeight = window.visualViewport?.height || window.innerHeight;
-    const scrollable = Math.max(scrollingElement.scrollHeight - viewportHeight, 0);
     const scrollTop = Math.max(scrollingElement.scrollTop, window.scrollY || 0);
-    const progress = scrollable > 0 ? Math.min(Math.max(scrollTop / scrollable, 0), 1) : 0;
+    const pageEnd = Math.max(scrollingElement.scrollHeight - viewportHeight, 0);
+    const articleEnd = articleContent
+      ? articleContent.getBoundingClientRect().bottom + scrollTop - viewportHeight
+      : pageEnd;
+    const progressEnd = Math.max(Math.min(articleEnd, pageEnd), 1);
+    const progress = Math.min(Math.max(scrollTop / progressEnd, 0), 1);
 
     if (Math.abs(progress - renderedProgress) > 0.0001) {
       readingProgress.style.width = `${progress * 100}%`;
