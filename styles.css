@@ -776,10 +776,9 @@ button {
   line-height: 1.86;
 }
 
-.article-paper-stack {
+.article-paper {
   position: relative;
   isolation: isolate;
-  padding-top: 28px;
   --article-paper-shape: polygon(
     0.35% 0.4%, 12% 0.12%, 26% 0.36%, 41% 0.08%, 58% 0.32%, 73% 0.1%,
     88% 0.34%, 99.62% 0.16%, 99.78% 18%, 99.55% 38%, 99.8% 57%,
@@ -787,45 +786,6 @@ button {
     34% 99.52%, 17% 99.76%, 0.3% 99.58%, 0.18% 78%, 0.42% 55%,
     0.16% 31%
   );
-}
-
-.article-paper-stack::before,
-.article-paper-stack::after {
-  position: absolute;
-  right: 0;
-  left: 0;
-  pointer-events: none;
-  content: "";
-  clip-path: var(--article-paper-shape);
-}
-
-.article-paper-stack::before {
-  top: 0;
-  bottom: 14px;
-  z-index: 0;
-  background: var(--parchment-card-layer-deep);
-  box-shadow:
-    0 -9px 16px rgba(48, 27, 10, 0.44),
-    0 18px 34px rgba(50, 30, 12, 0.46);
-  transform: translateY(2px) scaleX(0.974);
-}
-
-.article-paper-stack::after {
-  top: 12px;
-  bottom: 7px;
-  z-index: 1;
-  background: var(--parchment-card-layer);
-  box-shadow:
-    inset 0 3px 0 rgba(255, 236, 187, 0.38),
-    0 -7px 13px rgba(57, 32, 11, 0.42),
-    0 14px 26px rgba(54, 32, 13, 0.4);
-  transform: translateY(1px) scaleX(0.986);
-}
-
-.article-paper {
-  position: relative;
-  z-index: 2;
-  isolation: isolate;
   padding: clamp(44px, 5vw, 64px) clamp(40px, 5.5vw, 70px) clamp(50px, 6vw, 76px);
   border: 2px solid var(--parchment-card-edge);
   border-top-width: 9px;
@@ -876,19 +836,6 @@ button {
 
 html[data-theme="dark"] .article-paper {
   background-blend-mode: multiply;
-}
-
-html[data-theme="dark"] .article-paper-stack::before {
-  box-shadow:
-    0 -9px 18px rgba(0, 0, 0, 0.86),
-    0 20px 38px rgba(0, 0, 0, 0.82);
-}
-
-html[data-theme="dark"] .article-paper-stack::after {
-  box-shadow:
-    inset 0 2px 0 rgba(232, 207, 158, 0.08),
-    0 -7px 14px rgba(0, 0, 0, 0.78),
-    0 15px 28px rgba(0, 0, 0, 0.76);
 }
 
 html[data-theme="dark"] .article-paper::before {
@@ -1165,21 +1112,6 @@ html[data-theme="dark"] .article-paper::after {
   .article-paper > p:first-child::first-letter {
     margin-top: 0.11em;
     font-size: 3.15rem;
-  }
-
-  .article-paper-stack {
-    padding-top: 20px;
-  }
-
-  .article-paper-stack::before {
-    bottom: 10px;
-    transform: translateY(1px) scaleX(0.968);
-  }
-
-  .article-paper-stack::after {
-    top: 9px;
-    bottom: 5px;
-    transform: scaleX(0.982);
   }
 
   .article-paper {
