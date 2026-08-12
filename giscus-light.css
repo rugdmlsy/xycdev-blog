@@ -13,36 +13,36 @@ main {
   --color-prettylights-syntax-comment: #7f7568;
   --color-prettylights-syntax-constant: #7b4a35;
   --color-prettylights-syntax-entity: #71516f;
-  --color-prettylights-syntax-storage-modifier-import: #2d2b26;
+  --color-prettylights-syntax-storage-modifier-import: #302e2a;
   --color-prettylights-syntax-entity-tag: #315b52;
-  --color-prettylights-syntax-keyword: #8f2d24;
+  --color-prettylights-syntax-keyword: #98463a;
   --color-prettylights-syntax-string: #5d5547;
   --color-prettylights-syntax-variable: #985526;
   --color-prettylights-syntax-brackethighlighter-unmatched: #9f3028;
-  --color-prettylights-syntax-invalid-illegal-text: #f4ecd9;
-  --color-prettylights-syntax-invalid-illegal-bg: #8f2d24;
-  --color-prettylights-syntax-carriage-return-text: #f4ecd9;
-  --color-prettylights-syntax-carriage-return-bg: #8f2d24;
+  --color-prettylights-syntax-invalid-illegal-text: #f3efe6;
+  --color-prettylights-syntax-invalid-illegal-bg: #98463a;
+  --color-prettylights-syntax-carriage-return-text: #f3efe6;
+  --color-prettylights-syntax-carriage-return-bg: #98463a;
   --color-prettylights-syntax-string-regexp: #315b52;
   --color-prettylights-syntax-markup-list: #6e4e24;
-  --color-prettylights-syntax-markup-heading: #8f2d24;
-  --color-prettylights-syntax-markup-italic: #6f6b61;
-  --color-prettylights-syntax-markup-bold: #2d2b26;
+  --color-prettylights-syntax-markup-heading: #98463a;
+  --color-prettylights-syntax-markup-italic: #746f66;
+  --color-prettylights-syntax-markup-bold: #302e2a;
   --color-prettylights-syntax-markup-deleted-text: #7d251f;
   --color-prettylights-syntax-markup-deleted-bg: #ecd5cf;
   --color-prettylights-syntax-markup-inserted-text: #315b52;
   --color-prettylights-syntax-markup-inserted-bg: #dce8e2;
   --color-prettylights-syntax-markup-changed-text: #87521f;
   --color-prettylights-syntax-markup-changed-bg: #ead9b9;
-  --color-prettylights-syntax-markup-ignored-text: #f4ecd9;
-  --color-prettylights-syntax-markup-ignored-bg: #6f6b61;
+  --color-prettylights-syntax-markup-ignored-text: #f3efe6;
+  --color-prettylights-syntax-markup-ignored-bg: #746f66;
   --color-prettylights-syntax-meta-diff-range: #71516f;
-  --color-prettylights-syntax-brackethighlighter-angle: #6f6b61;
-  --color-prettylights-syntax-sublimelinter-gutter-mark: #999183;
+  --color-prettylights-syntax-brackethighlighter-angle: #746f66;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #a49c8f;
   --color-prettylights-syntax-constant-other-reference-link: #7b4a35;
 
   --color-btn-text: #3a342c;
-  --color-btn-bg: #e8deca;
+  --color-btn-bg: #ebe4d8;
   --color-btn-border: rgb(90 72 51 / 28%);
   --color-btn-shadow: 0 1px 0 rgb(60 43 25 / 8%);
   --color-btn-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 32%);
@@ -52,7 +52,7 @@ main {
   --color-btn-active-border: rgb(90 72 51 / 48%);
   --color-btn-selected-bg: #ded1bb;
   --color-btn-primary-text: #fffaf0;
-  --color-btn-primary-bg: #8f2d24;
+  --color-btn-primary-bg: #98463a;
   --color-btn-primary-border: rgb(86 23 18 / 45%);
   --color-btn-primary-shadow: 0 1px 0 rgb(60 20 15 / 14%);
   --color-btn-primary-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 8%);
@@ -64,23 +64,23 @@ main {
   --color-btn-primary-disabled-bg: #bc8179;
   --color-btn-primary-disabled-border: rgb(86 23 18 / 20%);
 
-  --color-action-list-item-default-hover-bg: rgb(143 45 36 / 7%);
-  --color-segmented-control-bg: #e8deca;
-  --color-segmented-control-button-bg: #f4ecd9;
-  --color-segmented-control-button-selected-border: #afa38f;
-  --color-fg-default: #2d2b26;
-  --color-fg-muted: #6f6b61;
+  --color-action-list-item-default-hover-bg: rgb(152 70 58 / 7%);
+  --color-segmented-control-bg: #ebe4d8;
+  --color-segmented-control-button-bg: #f3efe6;
+  --color-segmented-control-button-selected-border: #bdb2a2;
+  --color-fg-default: #302e2a;
+  --color-fg-muted: #746f66;
   --color-fg-subtle: #8e8679;
-  --color-canvas-default: #f4ecd9;
-  --color-canvas-overlay: #eee5d3;
-  --color-canvas-inset: #e8deca;
-  --color-canvas-subtle: #eee5d3;
-  --color-border-default: #afa38f;
-  --color-border-muted: #d8cdb8;
+  --color-canvas-default: #f3efe6;
+  --color-canvas-overlay: #ebe4d8;
+  --color-canvas-inset: #ebe4d8;
+  --color-canvas-subtle: #ebe4d8;
+  --color-border-default: #bdb2a2;
+  --color-border-muted: #ddd5c8;
   --color-neutral-muted: rgb(111 107 97 / 15%);
-  --color-accent-fg: #8f2d24;
-  --color-accent-emphasis: #8f2d24;
-  --color-accent-muted: rgb(143 45 36 / 28%);
+  --color-accent-fg: #98463a;
+  --color-accent-emphasis: #98463a;
+  --color-accent-muted: rgb(152 70 58 / 28%);
   --color-accent-subtle: #eee0dc;
   --color-success-fg: #315b52;
   --color-attention-fg: #835c20;
@@ -90,7 +90,7 @@ main {
   --color-danger-muted: rgb(159 48 40 / 32%);
   --color-danger-subtle: #ecd5cf;
   --color-primer-shadow-inset: inset 0 1px 0 rgb(175 163 143 / 20%);
-  --color-scale-gray-1: #e8deca;
+  --color-scale-gray-1: #ebe4d8;
   --color-scale-blue-1: #e6cbc5;
   --color-social-reaction-bg-hover: var(--color-scale-gray-1);
   --color-social-reaction-bg-reacted-hover: var(--color-scale-blue-1);
@@ -101,7 +101,7 @@ main {
 
 html,
 body {
-  background-color: #f4ecd9 !important;
+  background-color: #f3efe6 !important;
   background-image: url("https://blog.xycdev.com/assets/parchment-surface.webp");
   background-repeat: repeat;
   background-size: 640px 640px;
@@ -162,7 +162,7 @@ main .gsc-emoji-button:hover:not(:disabled) {
 
 main .btn-primary {
   border-color: rgb(86 23 18 / 45%);
-  background-color: #8f2d24;
+  background-color: #98463a;
   color: #fffaf0;
 }
 

@@ -13,9 +13,9 @@ main {
   --color-prettylights-syntax-comment: #8a877f;
   --color-prettylights-syntax-constant: #d29a7e;
   --color-prettylights-syntax-entity: #c39aba;
-  --color-prettylights-syntax-storage-modifier-import: #e7e2d7;
+  --color-prettylights-syntax-storage-modifier-import: #e8e4da;
   --color-prettylights-syntax-entity-tag: #78a89b;
-  --color-prettylights-syntax-keyword: #d27a6e;
+  --color-prettylights-syntax-keyword: #cf7a6e;
   --color-prettylights-syntax-string: #c8b98f;
   --color-prettylights-syntax-variable: #d5a15f;
   --color-prettylights-syntax-brackethighlighter-unmatched: #e1786e;
@@ -25,9 +25,9 @@ main {
   --color-prettylights-syntax-carriage-return-bg: #8f3d35;
   --color-prettylights-syntax-string-regexp: #78a89b;
   --color-prettylights-syntax-markup-list: #c4a367;
-  --color-prettylights-syntax-markup-heading: #d27a6e;
-  --color-prettylights-syntax-markup-italic: #aaa69c;
-  --color-prettylights-syntax-markup-bold: #e7e2d7;
+  --color-prettylights-syntax-markup-heading: #cf7a6e;
+  --color-prettylights-syntax-markup-italic: #aaa49a;
+  --color-prettylights-syntax-markup-bold: #e8e4da;
   --color-prettylights-syntax-markup-deleted-text: #efb3ac;
   --color-prettylights-syntax-markup-deleted-bg: #51231f;
   --color-prettylights-syntax-markup-inserted-text: #a7c8bd;
@@ -64,23 +64,23 @@ main {
   --color-btn-primary-disabled-bg: rgb(169 83 73 / 58%);
   --color-btn-primary-disabled-border: rgb(255 235 227 / 8%);
 
-  --color-action-list-item-default-hover-bg: rgb(210 122 110 / 10%);
+  --color-action-list-item-default-hover-bg: rgb(207 122 110 / 10%);
   --color-segmented-control-bg: rgb(89 90 83 / 18%);
-  --color-segmented-control-button-bg: #1d1d1a;
-  --color-segmented-control-button-selected-border: #595a53;
-  --color-fg-default: #e7e2d7;
-  --color-fg-muted: #aaa69c;
-  --color-fg-subtle: #797971;
-  --color-canvas-default: #1d1d1a;
-  --color-canvas-overlay: #282721;
+  --color-segmented-control-button-bg: #1b1b19;
+  --color-segmented-control-button-selected-border: #5e5a52;
+  --color-fg-default: #e8e4da;
+  --color-fg-muted: #aaa49a;
+  --color-fg-subtle: #746f68;
+  --color-canvas-default: #1b1b19;
+  --color-canvas-overlay: #23231f;
   --color-canvas-inset: #171714;
   --color-canvas-subtle: #24231f;
-  --color-border-default: #595a53;
-  --color-border-muted: #383934;
+  --color-border-default: #5e5a52;
+  --color-border-muted: #35342f;
   --color-neutral-muted: rgb(121 121 113 / 28%);
-  --color-accent-fg: #d27a6e;
+  --color-accent-fg: #cf7a6e;
   --color-accent-emphasis: #a95349;
-  --color-accent-muted: rgb(210 122 110 / 34%);
+  --color-accent-muted: rgb(207 122 110 / 34%);
   --color-accent-subtle: #3b2926;
   --color-success-fg: #78a89b;
   --color-attention-fg: #c7a260;
@@ -101,7 +101,7 @@ main {
 
 html,
 body {
-  background-color: #1d1d1a !important;
+  background-color: #1b1b19 !important;
   background-image: url("https://blog.xycdev.com/assets/parchment-surface.webp");
   background-repeat: repeat;
   background-size: 640px 640px;
