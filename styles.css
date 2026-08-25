@@ -2012,6 +2012,14 @@ html[data-article-style="editorial"] .article-paper > * {
   z-index: auto;
 }
 
+html[data-article-style="editorial"] .article-paper img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.8em auto;
+  border-radius: 4px;
+}
+
 html[data-article-style="editorial"] .article-paper > p:first-child::first-letter {
   float: none;
   margin: 0;

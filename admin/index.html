@@ -57,7 +57,7 @@
               <label><span>Slug</span><input id="post-slug" required maxlength="80" pattern="[a-z0-9._-]+" placeholder="my-post"></label>
               <label><span>日期</span><input id="post-date" type="date" required></label>
               <label><span>分类</span><select id="post-category"><option value="tech">技术 / Tech</option><option value="personal">个人 / Personal</option></select></label>
-              <label><span>阅读时间</span><div class="input-suffix"><input id="post-read-minutes" type="number" min="1" max="120" value="3"><span>min</span></div></label>
+              <label><span>阅读时间 <small>自动计算</small></span><div class="reading-time-output" id="post-reading-time">中文 1 分钟 · EN 1 min</div></label>
               <label class="wide"><span>文章标签 <small>逗号分隔</small></span><input id="post-tags" placeholder="agent, research"></label>
               <label class="wide"><span>时间线额外标签 <small>自动另带 blog</small></span><input id="post-timeline-tags" placeholder="tech, paper"></label>
               <label class="check-row wide"><input id="post-featured" type="checkbox"><span>设为置顶文章</span></label>

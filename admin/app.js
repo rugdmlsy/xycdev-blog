@@ -76,19 +76,41 @@ function renderPostList() {
   $$('[data-post-slug]').forEach((button)=>button.addEventListener('click',()=>openPost(button.dataset.postSlug)));
 }
 
-function emptyPost() { return { slug:'',date:localDate(),category:'tech',featured:false,tags:[],timelineTags:['tech'],readMinutes:3,title:{zh:'',en:''},summary:{zh:'',en:''},timelineSummary:{zh:'',en:''},body:{zh:'',en:''} }; }
+function estimateReadingTime(markdown = '') {
+  const source = String(markdown || '');
+  const images = [...source.matchAll(/!\[[^\]]*\]\([^\s)]+\)/g)].length;
+  const text = source
+    .replace(/!\[[^\]]*\]\([^\s)]+\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^\s)]+\)/g, '$1')
+    .replace(/```[\s\S]*?```/g, (block) => block.replace(/^```[^\n]*|```$/g, ' '))
+    .replace(/[`*_>#~-]/g, ' ');
+  const cjkChars = (text.match(/[\p{Script=Han}]/gu) || []).length;
+  const latinWords = (text.match(/[A-Za-z0-9]+(?:['’-][A-Za-z0-9]+)*/g) || []).length;
+  const textSeconds = (cjkChars / 500) * 60 + (latinWords / 238) * 60;
+  let imageSeconds = 0;
+  for (let i = 0; i < images; i += 1) imageSeconds += Math.max(3, 12 - i);
+  return { minutes: Math.max(1, Math.ceil((textSeconds + imageSeconds) / 60)), cjkChars, latinWords, images };
+}
+function updateReadingTimeEstimate() {
+  const zh = estimateReadingTime($('#post-body-zh').value);
+  const en = estimateReadingTime($('#post-body-en').value);
+  const images = Math.max(zh.images, en.images);
+  $('#post-reading-time').textContent = `中文 ${zh.minutes} 分钟 · EN ${en.minutes} min${images ? ` · ${images} 图` : ''}`;
+  $('#post-reading-time').title = `自动估算：中文约 500 字/分钟，英文约 238 词/分钟；图片从 12 秒/张递减至 3 秒/张。`;
+}
+function emptyPost() { return { slug:'',date:localDate(),category:'tech',featured:false,tags:[],timelineTags:['tech'],title:{zh:'',en:''},summary:{zh:'',en:''},timelineSummary:{zh:'',en:''},body:{zh:'',en:''} }; }
 function openPost(slug, post = null) {
   if (dirty && selectedPostSlug !== slug && !confirm('当前文章有未保存修改，仍然切换吗？')) return;
   const item=post || state.posts.find((p)=>p.slug===slug); if (!item) return;
   selectedPostSlug = slug || null; postIsNew=!slug;
   $('#post-editor-empty').hidden=true; $('#post-editor').hidden=false;
-  $('#post-slug').value=item.slug || ''; $('#post-date').value=item.date || localDate(); $('#post-category').value=item.category || 'tech'; $('#post-read-minutes').value=item.readMinutes || 3; $('#post-tags').value=(item.tags||[]).join(', '); $('#post-timeline-tags').value=(item.timelineTags||[]).join(', '); $('#post-featured').checked=Boolean(item.featured);
+  $('#post-slug').value=item.slug || ''; $('#post-date').value=item.date || localDate(); $('#post-category').value=item.category || 'tech'; $('#post-tags').value=(item.tags||[]).join(', '); $('#post-timeline-tags').value=(item.timelineTags||[]).join(', '); $('#post-featured').checked=Boolean(item.featured);
   $('#post-title-zh').value=item.title?.zh || ''; $('#post-title-en').value=item.title?.en || ''; $('#post-summary-zh').value=item.summary?.zh || ''; $('#post-summary-en').value=item.summary?.en || ''; $('#post-timeline-summary-zh').value=item.timelineSummary?.zh || ''; $('#post-timeline-summary-en').value=item.timelineSummary?.en || ''; $('#post-body-zh').value=item.body?.zh || ''; $('#post-body-en').value=item.body?.en || '';
   updateMarkdownPreviews(); renderPostList(); setDirty(false); $('#post-save-state').textContent=postIsNew?'新文章，尚未保存':'已保存';
   $('#delete-post').hidden=postIsNew; $('#preview-post').disabled=postIsNew;
 }
 function collectPost() {
-  return { slug:$('#post-slug').value.trim().toLowerCase(),date:$('#post-date').value,category:$('#post-category').value,readMinutes:Number($('#post-read-minutes').value)||3,featured:$('#post-featured').checked,tags:tagsFrom($('#post-tags').value),timelineTags:tagsFrom($('#post-timeline-tags').value),title:{zh:$('#post-title-zh').value.trim(),en:$('#post-title-en').value.trim()},summary:{zh:$('#post-summary-zh').value.trim(),en:$('#post-summary-en').value.trim()},timelineSummary:{zh:$('#post-timeline-summary-zh').value.trim(),en:$('#post-timeline-summary-en').value.trim()},body:{zh:$('#post-body-zh').value,en:$('#post-body-en').value} };
+  return { slug:$('#post-slug').value.trim().toLowerCase(),date:$('#post-date').value,category:$('#post-category').value,featured:$('#post-featured').checked,tags:tagsFrom($('#post-tags').value),timelineTags:tagsFrom($('#post-timeline-tags').value),title:{zh:$('#post-title-zh').value.trim(),en:$('#post-title-en').value.trim()},summary:{zh:$('#post-summary-zh').value.trim(),en:$('#post-summary-en').value.trim()},timelineSummary:{zh:$('#post-timeline-summary-zh').value.trim(),en:$('#post-timeline-summary-en').value.trim()},body:{zh:$('#post-body-zh').value,en:$('#post-body-en').value} };
 }
 async function savePost() {
   const form=$('#post-editor'); if (!form.reportValidity()) return;
@@ -108,12 +130,12 @@ async function deletePost() {
 
 function markdown(text='') {
   const lines=String(text).replace(/\r\n?/g,'\n').split('\n'); let out='', paragraph=[], list=[], code=null;
-  const inline=(value)=>{ let x=escapeHtml(value); x=x.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>'); return x; };
+  const inline=(value)=>{ let x=escapeHtml(value); x=x.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g,'<img src="$2" alt="$1" loading="lazy" decoding="async">').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g,'<a href="$2">$1</a>'); return x; };
   const flushP=()=>{ if(paragraph.length){out+=`<p>${inline(paragraph.join(' '))}</p>`;paragraph=[]}}; const flushL=()=>{if(list.length){out+=`<ul>${list.map(x=>`<li>${inline(x)}</li>`).join('')}</ul>`;list=[]}};
   for(const line of lines){ if(/^```/.test(line)){ if(code!==null){out+=`<pre><code>${escapeHtml(code.join('\n'))}</code></pre>`;code=null}else{flushP();flushL();code=[]} continue;} if(code!==null){code.push(line);continue;} const h=line.match(/^(#{2,4})\s+(.+)$/); if(h){flushP();flushL();const n=h[1].length;out+=`<h${n}>${inline(h[2])}</h${n}>`;continue;} const q=line.match(/^>\s?(.*)$/);if(q){flushP();flushL();out+=`<blockquote>${inline(q[1])}</blockquote>`;continue;} const li=line.match(/^[-*]\s+(.+)$/);if(li){flushP();list.push(li[1]);continue;} if(!line.trim()){flushP();flushL();continue;} paragraph.push(line.trim()); }
   if(code!==null)out+=`<pre><code>${escapeHtml(code.join('\n'))}</code></pre>`;flushP();flushL();return out || '<p style="color:var(--muted)">正文预览会显示在这里。</p>';
 }
-function updateMarkdownPreviews(){ $('#post-body-preview-zh').innerHTML=markdown($('#post-body-zh').value); $('#post-body-preview-en').innerHTML=markdown($('#post-body-en').value); }
+function updateMarkdownPreviews(){ $('#post-body-preview-zh').innerHTML=markdown($('#post-body-zh').value); $('#post-body-preview-en').innerHTML=markdown($('#post-body-en').value); updateReadingTimeEstimate(); }
 
 function renderTimelineList() {
   const entries=[...state.timeline].sort((a,b)=>String(b.date).localeCompare(String(a.date))); $('#timeline-count').textContent=entries.length;

@@ -23,6 +23,34 @@ export function normalizeTags(value) {
   return [...new Set(input.map((tag) => String(tag).trim().toLowerCase()).filter(Boolean))];
 }
 
+export function estimateReadingTime(markdown = '') {
+  const source = String(markdown || '');
+  const images = [...source.matchAll(/!\[[^\]]*\]\([^\s)]+\)/g)].length;
+  const text = source
+    .replace(/!\[[^\]]*\]\([^\s)]+\)/g, ' ')
+    .replace(/\[([^\]]+)\]\([^\s)]+\)/g, '$1')
+    .replace(/```[\s\S]*?```/g, (block) => block.replace(/^```[^\n]*|```$/g, ' '))
+    .replace(/[`*_>#~-]/g, ' ');
+  const cjkChars = (text.match(/[\p{Script=Han}]/gu) || []).length;
+  const latinWords = (text.match(/[A-Za-z0-9]+(?:['’-][A-Za-z0-9]+)*/g) || []).length;
+  const textSeconds = (cjkChars / 500) * 60 + (latinWords / 238) * 60;
+  let imageSeconds = 0;
+  for (let i = 0; i < images; i += 1) imageSeconds += Math.max(3, 12 - i);
+  return {
+    minutes: Math.max(1, Math.ceil((textSeconds + imageSeconds) / 60)),
+    cjkChars,
+    latinWords,
+    images,
+  };
+}
+
+export function estimateReadingTimePair(body = {}) {
+  return {
+    zh: estimateReadingTime(body.zh || body.en || ''),
+    en: estimateReadingTime(body.en || body.zh || ''),
+  };
+}
+
 export function normalizePost(post, index = 0) {
   if (!post || typeof post !== 'object') throw new Error(`文章 #${index + 1} 格式错误`);
   const slug = normalizeSlug(post.slug);
@@ -32,18 +60,21 @@ export function normalizePost(post, index = 0) {
   const title = typeof post.title === 'string' ? { zh: post.title, en: post.title } : (post.title || {});
   if (!String(title.zh || title.en || '').trim()) throw new Error(`${slug}: 缺少标题`);
   const summary = typeof post.summary === 'string' ? { zh: post.summary, en: post.summary } : (post.summary || {});
-  const body = typeof post.body === 'string' ? { zh: post.body, en: post.body } : (post.body || {});
+  const rawBody = typeof post.body === 'string' ? { zh: post.body, en: post.body } : (post.body || {});
+  const body = { zh: String(rawBody.zh || rawBody.en || ''), en: String(rawBody.en || rawBody.zh || '') };
+  const reading = estimateReadingTimePair(body);
   return {
     slug, date, category, featured: Boolean(post.featured),
     tags: normalizeTags(post.tags), timelineTags: normalizeTags(post.timelineTags),
-    readMinutes: Math.max(1, Math.min(120, Number(post.readMinutes) || 3)),
+    readMinutes: { zh: reading.zh.minutes, en: reading.en.minutes },
+    readingStats: { zh: reading.zh, en: reading.en },
     title: { zh: String(title.zh || title.en || '').trim(), en: String(title.en || title.zh || '').trim() },
     summary: { zh: String(summary.zh || summary.en || '').trim(), en: String(summary.en || summary.zh || '').trim() },
     timelineSummary: {
       zh: String(post.timelineSummary?.zh || summary.zh || summary.en || '').trim(),
       en: String(post.timelineSummary?.en || summary.en || summary.zh || '').trim(),
     },
-    body: { zh: String(body.zh || body.en || ''), en: String(body.en || body.zh || '') },
+    body,
   };
 }
 
@@ -60,12 +91,14 @@ export async function readPostsData() {
 
 export async function writePostsData(data) {
   const posts = (data.posts || []).map(normalizePost);
-  await writeFile(POSTS_DATA_PATH, JSON.stringify({ posts }, null, 2) + '\n');
+  const sourcePosts = posts.map(({ readMinutes, readingStats, ...post }) => post);
+  await writeFile(POSTS_DATA_PATH, JSON.stringify({ posts: sourcePosts }, null, 2) + '\n');
   return { posts };
 }
 
 export function inlineMarkdown(text) {
   let out = escapeHtml(text);
+  out = out.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g, '<img src="$2" alt="$1" loading="lazy" decoding="async">');
   out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
   out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   out = out.replace(/\*([^*]+)\*/g, '<em>$1</em>');

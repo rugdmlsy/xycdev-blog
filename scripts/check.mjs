@@ -1,4 +1,5 @@
 import { access, readFile } from 'node:fs/promises';
+import { estimateReadingTime, markdownToHtml } from './content-lib.mjs';
 
 const files = [
   'index.html','timeline.html','styles.css','script.js','posts/placeholder.html','404.html','giscus-light.css','giscus-dark.css',
@@ -12,13 +13,24 @@ await access('assets/parchment-surface.webp');
 const parsedPosts = JSON.parse(postsData);
 const parsedTimeline = JSON.parse(timelineData);
 const pkg = JSON.parse(packageJson);
+const zh500 = estimateReadingTime('字'.repeat(500));
+const zh501 = estimateReadingTime('字'.repeat(501));
+const en238 = estimateReadingTime(Array(238).fill('word').join(' '));
+const en239 = estimateReadingTime(Array(239).fill('word').join(' '));
+const withImage = estimateReadingTime(`${Array(238).fill('word').join(' ')}\n\n![diagram](/assets/example.png)`);
+const imageHtml = markdownToHtml('![diagram](/assets/example.png)');
 const assertions = [
   [Array.isArray(parsedPosts.posts) && parsedPosts.posts.length >= 1, 'Structured post source is missing'],
   [parsedPosts.posts.some((post) => post.slug === 'placeholder'), 'Migrated placeholder post source is missing'],
+  [parsedPosts.posts.every((post) => post.readMinutes === undefined), 'Reading time must not be manually stored in post source'],
+  [zh500.minutes === 1 && zh501.minutes === 2 && en238.minutes === 1 && en239.minutes === 2, 'Automatic text reading-time estimator is incorrect'],
+  [withImage.minutes === 2 && withImage.images === 1, 'Image reading-time penalty is incorrect'],
+  [imageHtml.includes('<img src="/assets/example.png"') && imageHtml.includes('loading="lazy"'), 'Markdown image rendering is missing'],
   [Array.isArray(parsedTimeline.entries), 'Manual timeline data must contain an entries array'],
   [home.includes('<!-- FEATURED:START -->') && home.includes('<!-- POSTS:START -->'), 'Home content generator markers are missing'],
   [home.includes('/posts/placeholder.html') && home.includes('data-language-copy="en"'), 'Generated bilingual home post content is missing'],
   [article.includes('data-post-slug="placeholder"') && article.includes('data-language-copy="zh"') && article.includes('class="article-paper"'), 'Generated article structure is missing'],
+  [article.includes('分钟阅读') && article.includes('min read') && !article.includes('[object Object]'), 'Generated automatic reading time is missing'],
   [timeline.includes('data-page="timeline"') && timeline.includes('<!-- TIMELINE:START -->') && timeline.includes('data-timeline-filter="blog"'), 'Timeline generation is missing'],
   [contentBuilder.includes('readPostsData') && contentBuilder.includes('markdownToHtml') && contentBuilder.includes('feed.xml'), 'Post/home/RSS content generator is incomplete'],
   [timelineBuilder.includes("['blog', ...extraTags]") && timelineBuilder.includes('walkHtml(POSTS_DIR)'), 'Automatic timeline blog-post discovery is missing'],
@@ -32,6 +44,7 @@ const assertions = [
   [contentLib.includes('normalizePost') && contentLib.includes('normalizeSlug') && contentLib.includes('markdownToHtml'), 'Content validation helpers are missing'],
   [adminServer.includes("const HOST = '127.0.0.1'") && adminServer.includes("'x-blog-admin'") && adminServer.includes('/api/publish') && adminServer.includes('/api/posts'), 'Local-only admin API protections/routes are missing'],
   [adminHtml.includes('id="post-editor"') && adminHtml.includes('id="timeline-editor"') && adminHtml.includes('id="publish-site"'), 'Visual admin workflows are missing'],
+  [adminHtml.includes('id="post-reading-time"') && !adminHtml.includes('id="post-read-minutes"') && adminApp.includes('estimateReadingTime') && adminApp.includes('updateReadingTimeEstimate'), 'Automatic editor reading-time UI is missing'],
   [adminHtml.includes('id="theme-toggle"') && adminApp.includes('xycdev-editor-theme') && adminApp.includes('setTheme') && adminStyles.includes(':root[data-theme="dark"]'), 'Admin light/dark theme toggle is missing'],
   [adminApp.includes('savePost') && adminApp.includes('saveTimeline') && adminApp.includes('publishSite') && adminApp.includes('updateMarkdownPreviews'), 'Admin client workflows are incomplete'],
   [adminStyles.includes('.split-layout') && adminStyles.includes('.markdown-preview') && adminStyles.includes('@media(max-width:820px)'), 'Responsive admin styling is missing'],
