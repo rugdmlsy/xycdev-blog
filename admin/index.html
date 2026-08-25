@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>xycdev editor</title>
+  <link rel="stylesheet" href="/admin/styles.css">
+  <script src="/admin/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/admin/" aria-label="xycdev editor">
+      <span class="brand-mark">xycdev</span><span class="brand-sub">EDITOR</span>
+    </a>
+    <div class="top-status"><span class="status-dot" id="status-dot"></span><span id="status-text">正在连接本地内容…</span></div>
+    <div class="top-actions">
+      <a class="button ghost" href="/" target="_blank" rel="noopener">本地预览 ↗</a>
+      <button class="button primary" id="top-publish" type="button">发布</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <nav class="sidebar" aria-label="编辑器导航">
+      <button class="nav-item is-active" data-view="posts" type="button"><span>文章</span><small id="posts-count">0</small></button>
+      <button class="nav-item" data-view="timeline" type="button"><span>时间线</span><small id="timeline-count">0</small></button>
+      <button class="nav-item" data-view="publish" type="button"><span>构建与发布</span><small>↗</small></button>
+      <div class="sidebar-note">所有内容只保存在本机 Git 仓库。点击“发布”后才会推送并部署。</div>
+    </nav>
+
+    <main class="workspace">
+      <section class="view is-active" data-view-panel="posts">
+        <div class="view-heading"><div><p class="eyebrow">WRITING</p><h1>文章</h1><p>使用 Markdown 编辑正文，保存后自动生成首页、文章页、RSS 与时间线。</p></div><button class="button primary" id="new-post" type="button">＋ 新建文章</button></div>
+        <div class="split-layout">
+          <aside class="collection-pane">
+            <label class="search"><span class="sr-only">搜索文章</span><input id="post-search" type="search" placeholder="搜索标题或 slug"></label>
+            <div class="collection-list" id="post-list"></div>
+          </aside>
+          <section class="editor-pane" id="post-editor-empty"><div class="empty-editor"><strong>选择一篇文章</strong><span>或新建文章开始编辑。</span></div></section>
+          <form class="editor-pane post-editor" id="post-editor" hidden>
+            <div class="editor-toolbar">
+              <div><span class="save-state" id="post-save-state">未修改</span></div>
+              <div class="toolbar-actions"><button class="button ghost danger-text" id="delete-post" type="button">删除</button><button class="button ghost" id="preview-post" type="button">打开页面 ↗</button><button class="button primary" type="submit">保存</button></div>
+            </div>
+            <div class="meta-grid">
+              <label><span>Slug</span><input id="post-slug" required maxlength="80" pattern="[a-z0-9._-]+" placeholder="my-post"></label>
+              <label><span>日期</span><input id="post-date" type="date" required></label>
+              <label><span>分类</span><select id="post-category"><option value="tech">技术 / Tech</option><option value="personal">个人 / Personal</option></select></label>
+              <label><span>阅读时间</span><div class="input-suffix"><input id="post-read-minutes" type="number" min="1" max="120" value="3"><span>min</span></div></label>
+              <label class="wide"><span>文章标签 <small>逗号分隔</small></span><input id="post-tags" placeholder="agent, research"></label>
+              <label class="wide"><span>时间线额外标签 <small>自动另带 blog</small></span><input id="post-timeline-tags" placeholder="tech, paper"></label>
+              <label class="check-row wide"><input id="post-featured" type="checkbox"><span>设为置顶文章</span></label>
+            </div>
+            <div class="language-switch" role="tablist" aria-label="编辑语言"><button class="is-active" type="button" data-edit-lang="zh">中文</button><button type="button" data-edit-lang="en">English</button></div>
+            <div class="language-panel is-active" data-lang-panel="zh">
+              <label class="field"><span>标题</span><input id="post-title-zh" maxlength="160" required></label>
+              <label class="field"><span>摘要</span><textarea id="post-summary-zh" rows="3" maxlength="500"></textarea></label>
+              <label class="field"><span>时间线摘要 <small>留空则使用文章摘要</small></span><textarea id="post-timeline-summary-zh" rows="2" maxlength="500"></textarea></label>
+              <div class="body-editor-grid"><label class="field markdown-field"><span>正文 · Markdown</span><textarea id="post-body-zh" rows="22" spellcheck="false"></textarea></label><section class="markdown-preview"><div class="preview-label">即时预览</div><article id="post-body-preview-zh"></article></section></div>
+            </div>
+            <div class="language-panel" data-lang-panel="en" hidden>
+              <label class="field"><span>Title</span><input id="post-title-en" maxlength="160"></label>
+              <label class="field"><span>Summary</span><textarea id="post-summary-en" rows="3" maxlength="500"></textarea></label>
+              <label class="field"><span>Timeline summary</span><textarea id="post-timeline-summary-en" rows="2" maxlength="500"></textarea></label>
+              <div class="body-editor-grid"><label class="field markdown-field"><span>Body · Markdown</span><textarea id="post-body-en" rows="22" spellcheck="false"></textarea></label><section class="markdown-preview"><div class="preview-label">Live preview</div><article id="post-body-preview-en"></article></section></div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="view" data-view-panel="timeline" hidden>
+        <div class="view-heading"><div><p class="eyebrow">CHRONICLE</p><h1>时间线短内容</h1><p>这里的内容只出现在时间线，不会成为博客文章。</p></div><button class="button primary" id="new-timeline" type="button">＋ 新建短内容</button></div>
+        <div class="split-layout timeline-layout">
+          <aside class="collection-pane"><div class="collection-list" id="timeline-list"></div></aside>
+          <section class="editor-pane" id="timeline-editor-empty"><div class="empty-editor"><strong>选择一条短内容</strong><span>或新建一条 idea / news / thought。</span></div></section>
+          <form class="editor-pane timeline-editor" id="timeline-editor" hidden>
+            <div class="editor-toolbar"><div><span class="save-state" id="timeline-save-state">未修改</span></div><div class="toolbar-actions"><button class="button ghost danger-text" id="delete-timeline" type="button">删除</button><button class="button ghost" id="preview-timeline" type="button">打开时间线 ↗</button><button class="button primary" type="submit">保存</button></div></div>
+            <div class="meta-grid">
+              <label><span>日期与时间</span><input id="timeline-date" type="datetime-local" required></label>
+              <label class="wide"><span>标签 <small>逗号分隔；推荐 thought / idea / news / note / update / link</small></span><input id="timeline-tags" required placeholder="thought"></label>
+              <label class="wide"><span>链接 <small>可选</small></span><input id="timeline-url" type="url" placeholder="https://…"></label>
+            </div>
+            <div class="language-switch" role="tablist"><button class="is-active" type="button" data-timeline-lang="zh">中文</button><button type="button" data-timeline-lang="en">English</button></div>
+            <div class="language-panel is-active" data-timeline-lang-panel="zh"><label class="field"><span>内容</span><textarea id="timeline-content-zh" rows="10" maxlength="3000" placeholder="刚刚想到……"></textarea></label></div>
+            <div class="language-panel" data-timeline-lang-panel="en" hidden><label class="field"><span>Content</span><textarea id="timeline-content-en" rows="10" maxlength="3000" placeholder="A passing thought…"></textarea></label></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="view publish-view" data-view-panel="publish" hidden>
+        <div class="view-heading"><div><p class="eyebrow">SHIP</p><h1>构建与发布</h1><p>先检查生成结果，再提交到 GitHub 并部署到 Cloudflare Pages。</p></div></div>
+        <div class="publish-grid">
+          <section class="publish-card"><div class="card-kicker">LOCAL REPOSITORY</div><h2>工作区状态</h2><pre id="git-status">加载中…</pre><button class="button ghost" id="refresh-status" type="button">刷新状态</button></section>
+          <section class="publish-card"><div class="card-kicker">PRE-FLIGHT</div><h2>生成与校验</h2><p>重新生成文章、首页、RSS、时间线，并运行完整静态检查。不会部署。</p><button class="button" id="build-site" type="button">运行构建检查</button></section>
+          <section class="publish-card publish-main"><div class="card-kicker">PRODUCTION</div><h2>发布到 blog.xycdev.com</h2><p>自动构建、校验、提交内容文件、push 到 <code>main</code>，然后部署 Pages。</p><label class="field"><span>Commit message</span><input id="publish-message" value="Publish blog content" maxlength="120"></label><button class="button primary big" id="publish-site" type="button">发布到线上</button></section>
+        </div>
+        <section class="console-card"><div class="console-head"><strong>操作日志</strong><button class="text-button" id="clear-log" type="button">清空</button></div><pre id="operation-log">尚未执行操作。</pre></section>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="confirm-dialog"><form method="dialog"><p class="dialog-kicker">CONFIRM</p><h2 id="confirm-title">确认操作</h2><p id="confirm-copy"></p><div class="dialog-actions"><button class="button ghost" value="cancel">取消</button><button class="button primary" id="confirm-action" value="confirm">确认</button></div></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

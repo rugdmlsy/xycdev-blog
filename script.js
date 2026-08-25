@@ -103,8 +103,10 @@ function applyTheme(theme) {
 
 function updateDocumentMetadata() {
   if (page === 'article') {
-    document.title = `${translate('post.placeholder.title')} — xycdev journal`;
-    description?.setAttribute('content', translate('article.deck'));
+    const articleTitle = document.querySelector(`.article-header h1 [data-language-copy="${activeLanguage}"]`)?.textContent?.trim();
+    const articleDescription = document.querySelector(`.article-deck[data-language-copy="${activeLanguage}"]`)?.textContent?.trim();
+    if (articleTitle) document.title = `${articleTitle} — xycdev journal`;
+    if (articleDescription) description?.setAttribute('content', articleDescription);
   } else if (page === 'timeline') {
     document.title = `${translate('timeline.title')} — xycdev journal`;
     description?.setAttribute('content', translate('timeline.intro'));

@@ -2,7 +2,48 @@
 
 Static source for `https://blog.xycdev.com`.
 
-## Local preview
+## Local visual editor
+
+The preferred authoring workflow is the localhost-only WebUI:
+
+```sh
+npm run admin
+```
+
+Open `http://127.0.0.1:4322/admin/`.
+
+The editor can:
+
+- create, edit, delete, and preview bilingual blog posts;
+- edit Markdown with a live preview;
+- control slug, date, category, tags, timeline tags, read time, and featured status;
+- create/edit/delete timeline-only short entries (`thought`, `idea`, `news`, etc.);
+- regenerate and validate the static site;
+- publish with one action: build → check → Git commit/push → Cloudflare Pages deploy.
+
+The admin server binds only to `127.0.0.1`. Mutating API calls require the local editor header and reject non-local browser origins.
+
+## Content model
+
+Authoring data is stored in two JSON files:
+
+- `content/posts.json` — blog posts, including bilingual Markdown body and metadata;
+- `content/timeline.json` — timeline-only short entries.
+
+`npm run build` treats those files as source data and generates:
+
+- `posts/*.html`;
+- the featured/recent-post sections in `index.html`;
+- `feed.xml`;
+- the combined `/timeline.html`.
+
+Every generated post automatically appears in the timeline with the `blog` tag plus its configured `timelineTags`.
+
+Useful short-entry tags: `idea`, `news`, `thought`, `musing`, `note`, `update`, `link`, `observation`. Use `thought` for a quick spontaneous thought; `musing` is better for a more reflective/rambling one.
+
+## CLI workflow
+
+Local static preview without the editor:
 
 ```sh
 npm run build
@@ -11,36 +52,14 @@ npm run dev
 
 Open `http://localhost:4321`.
 
-## Validation
+Validation:
 
 ```sh
 npm run build
 npm run check
 ```
 
-## Content
-
-The deployed site currently contains one placeholder article at `posts/placeholder.html`. Articles are plain HTML.
-
-### Timeline
-
-`/timeline.html` merges two content sources in reverse chronological order:
-
-1. Every HTML file under `posts/` is discovered automatically and appears with the `blog` tag.
-2. Timeline-only short entries live in `content/timeline.json` and never appear in the article list or RSS feed.
-
-Optional article metadata:
-
-```html
-<meta name="timeline-tags" content="tech,research">
-<meta name="timeline-title-en" content="English timeline title">
-<meta name="timeline-summary-en" content="English timeline summary">
-<meta name="timeline" content="false"> <!-- opt out -->
-```
-
-Useful short-entry tags: `idea`, `news`, `thought`, `musing`, `note`, `update`, `link`, `observation`. Use `thought` for a quick spontaneous thought; `musing` is better for a more reflective/rambling one.
-
-Add a short entry without editing JSON by hand:
+A timeline-only entry can still be added from the CLI:
 
 ```sh
 npm run timeline:add -- --tag thought --text "突然想到……"
@@ -53,19 +72,13 @@ Multiple tags and an English version are supported:
 npm run timeline:add -- --tag idea --tag research --text "中文" --text-en "English"
 ```
 
-To add the entry and deploy it immediately:
-
-```sh
-npm run timeline:publish -- --tag thought --text "突然想到……"
-```
-
 ## Comments
 
 Comments use Giscus backed by GitHub Discussions in this repository. The iframe loads the hosted `giscus-light.css` or `giscus-dark.css` palette so its colors follow the journal theme.
 
 ## Deploy
 
-Use the wrapper so the timeline is regenerated, validated, copied into a minimal `.pages-dist/` bundle, and then uploaded:
+The deployment wrapper regenerates the site, validates it, copies only production files into `.pages-dist/`, and uploads that small bundle:
 
 ```sh
 npm run deploy
