@@ -140,13 +140,12 @@ const start = '<!-- TIMELINE:START -->';
 const end = '<!-- TIMELINE:END -->';
 if (!html.includes(start) || !html.includes(end)) throw new Error('timeline.html is missing generator markers');
 
+const tagButtons = tags.map((tag) => `<button class="timeline-filter" type="button" data-timeline-filter="${escapeHtml(tag)}">${escapeHtml(tag)}</button>`).join('\n        ');
+const entryMarkup = entries.map(renderEntry).join('\n        ');
 const generated = `${start}\n      <div class="timeline-filter-row" aria-label="Timeline tag filters" data-i18n-aria="timeline.filtersAria">
-        <button class="timeline-filter is-active" type="button" data-timeline-filter="all" data-i18n="timeline.all">全部</button>
-        ${tags.map((tag) => `<button class="timeline-filter" type="button" data-timeline-filter="${escapeHtml(tag)}">${escapeHtml(tag)}</button>`).join('\n        ')}
+        <button class="timeline-filter is-active" type="button" data-timeline-filter="all" data-i18n="timeline.all">全部</button>${tagButtons ? `\n        ${tagButtons}` : ''}
       </div>
-      <div class="timeline-list" aria-live="polite">
-        ${entries.map(renderEntry).join('\n        ')}
-      </div>
+      <div class="timeline-list" aria-live="polite">${entryMarkup ? `\n        ${entryMarkup}\n      ` : ''}</div>
       <p class="timeline-empty" hidden data-i18n="timeline.empty">这个标签下还没有内容。</p>
       ${end}`;
 

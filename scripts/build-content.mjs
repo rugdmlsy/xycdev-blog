@@ -87,7 +87,8 @@ const featuredMarkup = featured ? `<!-- FEATURED:START -->
     <!-- FEATURED:END -->` : `<!-- FEATURED:START --><!-- FEATURED:END -->`;
 home = home.replace(/<!-- FEATURED:START -->[\s\S]*?<!-- FEATURED:END -->/, featuredMarkup);
 const rows = posts.map((post) => `<article class="post-row" data-category="${categoryClass(post.category)}" data-year="${post.date.slice(0,4)}"><div class="post-date"><time datetime="${post.date}">${shortDate(post.date)}</time><span>${post.date.slice(0,4)}</span></div><div class="post-main"><div class="post-meta"><span class="category category-${categoryClass(post.category)}">${pair(categoryLabel(post.category))}</span>${post.tags.map((tag)=>`<span>${escapeHtml(tag)}</span>`).join('')}</div><h3><a href="/posts/${escapeAttr(post.slug)}.html">${pair(post.title)}</a></h3><div class="post-summary">${pair(post.summary,'p')}</div></div><span class="post-arrow" aria-hidden="true">↗</span></article>`).join('\n          ');
-const listMarkup = `<!-- POSTS:START -->\n        <div class="post-list" aria-live="polite">\n          ${rows}\n        </div>\n        <!-- POSTS:END -->`;
+const listBody = rows ? `\n          ${rows}\n        ` : '';
+const listMarkup = `<!-- POSTS:START -->\n        <div class="post-list" aria-live="polite">${listBody}</div>\n        <!-- POSTS:END -->`;
 home = home.replace(/<!-- POSTS:START -->[\s\S]*?<!-- POSTS:END -->/, listMarkup);
 await writeFile(path.join(ROOT, 'index.html'), home);
 
