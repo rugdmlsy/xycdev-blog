@@ -13,6 +13,7 @@ const translations = {
     'common.readMore': '阅读全文', 'common.backTop': '回到顶部 ↑', 'common.back': '返回', 'common.backList': '返回文章列表',
     'nav.writing': '文章', 'nav.timeline': '时间线', 'nav.about': '关于', 'nav.mainSite': '主站 ↗',
     'theme.toggleAria': '切换深浅色主题', 'theme.dark': '深色', 'theme.light': '浅色',
+    'code.copy': '复制', 'code.copied': '已复制', 'code.copyFailed': '复制失败', 'code.copyAria': '复制代码', 'code.copiedAria': '代码已复制', 'code.copyFailedAria': '复制代码失败',
     'category.tech': '技术', 'category.personal': '个人', 'filter.all': '全部', 'meta.read3': '3 分钟阅读', 'tag.placeholder': '占位内容',
     'home.kicker': '栏目说明占位文字', 'home.title': '博客主页标题占位文字。',
     'home.intro': '这里是博客副标题与简介的占位内容，正式发布前可替换为对博客主题、作者和内容范围的简短说明。',
@@ -39,6 +40,7 @@ const translations = {
     'common.readMore': 'Read article', 'common.backTop': 'Back to top ↑', 'common.back': 'Back', 'common.backList': 'Back to all writing',
     'nav.writing': 'Writing', 'nav.timeline': 'Timeline', 'nav.about': 'About', 'nav.mainSite': 'Main site ↗',
     'theme.toggleAria': 'Switch color theme', 'theme.dark': 'Dark', 'theme.light': 'Light',
+    'code.copy': 'Copy', 'code.copied': 'Copied', 'code.copyFailed': 'Copy failed', 'code.copyAria': 'Copy code', 'code.copiedAria': 'Code copied', 'code.copyFailedAria': 'Failed to copy code',
     'category.tech': 'Technology', 'category.personal': 'Personal', 'filter.all': 'All', 'meta.read3': '3 min read', 'tag.placeholder': 'Placeholder',
     'home.kicker': 'Section description placeholder', 'home.title': 'Homepage title placeholder.',
     'home.intro': 'This is placeholder copy for the homepage subtitle and introduction. Replace it with a short description of the journal before publishing real content.',
@@ -136,6 +138,17 @@ function updateTimelineDates() {
   });
 }
 
+function syncCodeCopyButtons() {
+  document.querySelectorAll('[data-code-copy]').forEach((button) => {
+    const state = button.dataset.copyState || '';
+    const label = button.querySelector('[data-code-copy-label]');
+    const key = state === 'copied' ? 'code.copied' : state === 'error' ? 'code.copyFailed' : 'code.copy';
+    const ariaKey = state === 'copied' ? 'code.copiedAria' : state === 'error' ? 'code.copyFailedAria' : 'code.copyAria';
+    if (label) label.textContent = translate(key);
+    button.setAttribute('aria-label', translate(ariaKey));
+  });
+}
+
 function applyLanguage(language) {
   activeLanguage = translations[language] ? language : 'zh';
   root.dataset.language = activeLanguage;
@@ -143,6 +156,7 @@ function applyLanguage(language) {
   document.querySelectorAll('[data-i18n]').forEach((element) => { element.textContent = translate(element.dataset.i18n); });
   document.querySelectorAll('[data-i18n-aria]').forEach((element) => { element.setAttribute('aria-label', translate(element.dataset.i18nAria)); });
   document.querySelectorAll('[data-language-copy]').forEach((element) => { element.hidden = element.dataset.languageCopy !== activeLanguage; });
+  syncCodeCopyButtons();
   if (languageLabel && languageToggle) {
     languageLabel.textContent = activeLanguage === 'zh' ? 'EN' : '中文';
     languageToggle.setAttribute('aria-label', activeLanguage === 'zh' ? 'Switch to English' : '切换为中文');
@@ -168,6 +182,42 @@ languageToggle?.addEventListener('click', () => {
   const nextLanguage = activeLanguage === 'zh' ? 'en' : 'zh';
   applyLanguage(nextLanguage);
   localStorage.setItem('xycdev-blog-language', nextLanguage);
+});
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const area = document.createElement('textarea');
+  area.value = text;
+  area.setAttribute('readonly', '');
+  area.style.position = 'fixed';
+  area.style.opacity = '0';
+  document.body.append(area);
+  area.select();
+  const copied = document.execCommand('copy');
+  area.remove();
+  if (!copied) throw new Error('copy failed');
+}
+const codeCopyTimers = new WeakMap();
+function setCodeCopyState(button, state = '') {
+  button.dataset.copyState = state;
+  syncCodeCopyButtons();
+  clearTimeout(codeCopyTimers.get(button));
+  if (state) codeCopyTimers.set(button, setTimeout(() => setCodeCopyState(button, ''), 1500));
+}
+document.addEventListener('click', async (event) => {
+  const button = event.target.closest('[data-code-copy]');
+  if (!button) return;
+  const code = button.closest('.code-block')?.querySelector('pre code');
+  if (!code) return;
+  try {
+    await copyTextToClipboard(code.textContent || '');
+    setCodeCopyState(button, 'copied');
+  } catch {
+    setCodeCopyState(button, 'error');
+  }
 });
 
 const filterButtons = [...document.querySelectorAll('[data-filter]')];

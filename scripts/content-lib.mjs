@@ -106,6 +106,40 @@ export function inlineMarkdown(text) {
   return out;
 }
 
+const CODE_LANGUAGE_LABELS = {
+  js: 'JavaScript', javascript: 'JavaScript', jsx: 'JSX',
+  ts: 'TypeScript', typescript: 'TypeScript', tsx: 'TSX',
+  py: 'Python', python: 'Python', java: 'Java', kotlin: 'Kotlin', kt: 'Kotlin',
+  c: 'C', cpp: 'C++', 'c++': 'C++', cs: 'C#', csharp: 'C#', 'c#': 'C#',
+  go: 'Go', golang: 'Go', rust: 'Rust', rs: 'Rust', swift: 'Swift',
+  sh: 'Shell', shell: 'Shell', bash: 'Bash', zsh: 'Zsh', powershell: 'PowerShell', ps1: 'PowerShell',
+  html: 'HTML', xml: 'XML', css: 'CSS', scss: 'SCSS', less: 'Less',
+  json: 'JSON', jsonc: 'JSONC', yaml: 'YAML', yml: 'YAML', toml: 'TOML', sql: 'SQL',
+  md: 'Markdown', markdown: 'Markdown', dockerfile: 'Dockerfile', makefile: 'Makefile',
+  text: 'Text', txt: 'Text', plaintext: 'Text',
+};
+
+export function codeLanguageLabel(value = '') {
+  const language = String(value || '').trim().toLowerCase();
+  if (!language) return 'Code';
+  if (CODE_LANGUAGE_LABELS[language]) return CODE_LANGUAGE_LABELS[language];
+  return language.split(/[-_]/).filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ') || 'Code';
+}
+
+function codeLanguageClass(value = '') {
+  const language = String(value || '').trim().toLowerCase();
+  if (!language) return '';
+  const aliases = { 'c++': 'cpp', 'c#': 'csharp' };
+  return (aliases[language] || language).replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function renderCodeBlock(lines, language = '') {
+  const normalizedLanguage = String(language || '').trim().toLowerCase();
+  const languageClass = codeLanguageClass(normalizedLanguage);
+  const codeClass = languageClass ? ` class="language-${escapeAttr(languageClass)}"` : '';
+  return `<div class="code-block" data-code-language="${escapeAttr(normalizedLanguage || 'code')}"><div class="code-block-bar"><span class="code-language">${escapeHtml(codeLanguageLabel(normalizedLanguage))}</span><button class="code-copy" type="button" data-code-copy aria-label="复制代码"><span data-code-copy-label aria-live="polite">复制</span></button></div><pre><code${codeClass}>${escapeHtml(lines.join('\n'))}</code></pre></div>`;
+}
+
 export function markdownToHtml(markdown = '') {
   const lines = String(markdown).replace(/\r\n?/g, '\n').split('\n');
   const out = [];
@@ -124,10 +158,10 @@ export function markdownToHtml(markdown = '') {
     list = [];
   };
   for (const line of lines) {
-    const fence = line.match(/^```\s*([\w-]*)\s*$/);
+    const fence = line.match(/^```\s*([^\s`]*)\s*$/);
     if (fence) {
       if (code !== null) {
-        out.push(`<pre><code${codeLang ? ` class="language-${escapeAttr(codeLang)}"` : ''}>${escapeHtml(code.join('\n'))}</code></pre>`);
+        out.push(renderCodeBlock(code, codeLang));
         code = null; codeLang = '';
       } else {
         flushParagraph(); flushList(); code = []; codeLang = fence[1] || '';
@@ -150,7 +184,7 @@ export function markdownToHtml(markdown = '') {
     if (!line.trim()) { flushParagraph(); flushList(); continue; }
     paragraph.push(line.trim());
   }
-  if (code !== null) out.push(`<pre><code${codeLang ? ` class="language-${escapeAttr(codeLang)}"` : ''}>${escapeHtml(code.join('\n'))}</code></pre>`);
+  if (code !== null) out.push(renderCodeBlock(code, codeLang));
   flushParagraph(); flushList();
   return out.join('\n');
 }

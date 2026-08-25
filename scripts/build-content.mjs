@@ -42,8 +42,8 @@ function renderArticle(post) {
   <meta name="timeline-summary-en" content="${escapeAttr(post.timelineSummary.en || post.summary.en)}">
   <meta name="theme-color" content="#f3efe6">
   <title>${escapeHtml(post.title.zh)} — xycdev journal</title>
-  <link rel="stylesheet" href="/styles.css?v=20260825-1">
-  <script src="/script.js?v=20260825-1" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=20260825-2">
+  <script src="/script.js?v=20260825-2" defer></script>
 </head>
 <body data-page="article" data-post-slug="${escapeAttr(post.slug)}">
   <div class="reading-progress" aria-hidden="true"><span></span></div>

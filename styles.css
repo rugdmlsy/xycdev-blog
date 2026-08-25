@@ -3260,3 +3260,73 @@ html[data-article-style="editorial"] body[data-page="article"] .site-footer stro
     padding: 31px 0;
   }
 }
+
+.prose .code-block {
+  overflow: hidden;
+  margin: 1.8em 0;
+  border: 1px solid var(--parchment-line);
+  border-radius: 8px;
+  background: var(--parchment-panel);
+}
+
+.prose .code-block-bar {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 9px 0 14px;
+  border-bottom: 1px solid var(--parchment-line);
+}
+
+.prose .code-language {
+  overflow: hidden;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prose .code-copy {
+  min-height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  cursor: pointer;
+}
+
+.prose .code-copy:hover,
+.prose .code-copy:focus-visible {
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  color: var(--ink);
+  outline: none;
+}
+
+.prose .code-copy[data-copy-state="copied"] {
+  color: var(--accent);
+}
+
+.prose .code-block pre,
+html[data-article-style="editorial"] .prose .code-block pre {
+  margin: 0;
+  padding: 18px 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-article-style="editorial"] .prose .code-block {
+  border-color: var(--line);
+  background: var(--paper-deep);
+}
+
+html[data-article-style="editorial"] .prose .code-block-bar {
+  border-bottom-color: var(--line);
+}

@@ -128,14 +128,29 @@ async function deletePost() {
   try { const data=await request(`/api/posts/${encodeURIComponent(selectedPostSlug)}`,{method:'DELETE',body:{}}); state=data.state; selectedPostSlug=null; $('#post-editor').hidden=true; $('#post-editor-empty').hidden=false; renderPostList(); setDirty(false); toast('文章已删除'); updateCountsAndStatus(); } catch(e){showError(e.message)} finally{setBusy(false)}
 }
 
+const CODE_LANGUAGE_LABELS = {
+  js:'JavaScript',javascript:'JavaScript',jsx:'JSX',ts:'TypeScript',typescript:'TypeScript',tsx:'TSX',
+  py:'Python',python:'Python',java:'Java',kotlin:'Kotlin',kt:'Kotlin',c:'C',cpp:'C++','c++':'C++',cs:'C#',csharp:'C#','c#':'C#',
+  go:'Go',golang:'Go',rust:'Rust',rs:'Rust',swift:'Swift',sh:'Shell',shell:'Shell',bash:'Bash',zsh:'Zsh',powershell:'PowerShell',ps1:'PowerShell',
+  html:'HTML',xml:'XML',css:'CSS',scss:'SCSS',less:'Less',json:'JSON',jsonc:'JSONC',yaml:'YAML',yml:'YAML',toml:'TOML',sql:'SQL',
+  md:'Markdown',markdown:'Markdown',dockerfile:'Dockerfile',makefile:'Makefile',text:'Text',txt:'Text',plaintext:'Text'
+};
+function codeLanguageLabel(value=''){const lang=String(value||'').trim().toLowerCase();if(!lang)return'Code';return CODE_LANGUAGE_LABELS[lang]||lang.split(/[-_]/).filter(Boolean).map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join(' ')||'Code'}
+function codeLanguageClass(value=''){const lang=String(value||'').trim().toLowerCase();if(!lang)return'';const aliases={'c++':'cpp','c#':'csharp'};return(aliases[lang]||lang).replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'')}
+function renderPreviewCodeBlock(lines,language=''){const lang=String(language||'').trim().toLowerCase();const cls=codeLanguageClass(lang);return `<div class="code-block" data-code-language="${escapeHtml(lang||'code')}"><div class="code-block-bar"><span class="code-language">${escapeHtml(codeLanguageLabel(lang))}</span><button class="code-copy" type="button" data-code-copy aria-label="复制代码"><span data-code-copy-label aria-live="polite">复制</span></button></div><pre><code${cls?` class="language-${escapeHtml(cls)}"`:''}>${escapeHtml(lines.join('\n'))}</code></pre></div>`}
 function markdown(text='') {
-  const lines=String(text).replace(/\r\n?/g,'\n').split('\n'); let out='', paragraph=[], list=[], code=null;
+  const lines=String(text).replace(/\r\n?/g,'\n').split('\n'); let out='', paragraph=[], list=[], code=null, codeLang='';
   const inline=(value)=>{ let x=escapeHtml(value); x=x.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g,'<img src="$2" alt="$1" loading="lazy" decoding="async">').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]+)\)/g,'<a href="$2">$1</a>'); return x; };
   const flushP=()=>{ if(paragraph.length){out+=`<p>${inline(paragraph.join(' '))}</p>`;paragraph=[]}}; const flushL=()=>{if(list.length){out+=`<ul>${list.map(x=>`<li>${inline(x)}</li>`).join('')}</ul>`;list=[]}};
-  for(const line of lines){ if(/^```/.test(line)){ if(code!==null){out+=`<pre><code>${escapeHtml(code.join('\n'))}</code></pre>`;code=null}else{flushP();flushL();code=[]} continue;} if(code!==null){code.push(line);continue;} const h=line.match(/^(#{2,4})\s+(.+)$/); if(h){flushP();flushL();const n=h[1].length;out+=`<h${n}>${inline(h[2])}</h${n}>`;continue;} const q=line.match(/^>\s?(.*)$/);if(q){flushP();flushL();out+=`<blockquote>${inline(q[1])}</blockquote>`;continue;} const li=line.match(/^[-*]\s+(.+)$/);if(li){flushP();list.push(li[1]);continue;} if(!line.trim()){flushP();flushL();continue;} paragraph.push(line.trim()); }
-  if(code!==null)out+=`<pre><code>${escapeHtml(code.join('\n'))}</code></pre>`;flushP();flushL();return out || '<p style="color:var(--muted)">正文预览会显示在这里。</p>';
+  for(const line of lines){const fence=line.match(/^```\s*([^\s`]*)\s*$/);if(fence){if(code!==null){out+=renderPreviewCodeBlock(code,codeLang);code=null;codeLang=''}else{flushP();flushL();code=[];codeLang=fence[1]||''}continue;} if(code!==null){code.push(line);continue;} const h=line.match(/^(#{2,4})\s+(.+)$/); if(h){flushP();flushL();const n=h[1].length;out+=`<h${n}>${inline(h[2])}</h${n}>`;continue;} const q=line.match(/^>\s?(.*)$/);if(q){flushP();flushL();out+=`<blockquote>${inline(q[1])}</blockquote>`;continue;} const li=line.match(/^[-*]\s+(.+)$/);if(li){flushP();list.push(li[1]);continue;} if(!line.trim()){flushP();flushL();continue;} paragraph.push(line.trim()); }
+  if(code!==null)out+=renderPreviewCodeBlock(code,codeLang);flushP();flushL();return out || '<p style="color:var(--muted)">正文预览会显示在这里。</p>';
 }
 function updateMarkdownPreviews(){ $('#post-body-preview-zh').innerHTML=markdown($('#post-body-zh').value); $('#post-body-preview-en').innerHTML=markdown($('#post-body-en').value); updateReadingTimeEstimate(); }
+
+async function copyText(text){if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);return}const area=document.createElement('textarea');area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();if(!ok)throw new Error('copy failed')}
+const codeCopyTimers=new WeakMap();
+function setCodeCopyState(button,state=''){const label=button.querySelector('[data-code-copy-label]');button.dataset.copyState=state;if(label)label.textContent=state==='copied'?'已复制':state==='error'?'复制失败':'复制';button.setAttribute('aria-label',state==='copied'?'代码已复制':state==='error'?'复制代码失败':'复制代码');clearTimeout(codeCopyTimers.get(button));if(state)codeCopyTimers.set(button,setTimeout(()=>setCodeCopyState(button,''),1500))}
+document.addEventListener('click',async(e)=>{const button=e.target.closest('[data-code-copy]');if(!button||!button.closest('.markdown-preview'))return;const code=button.closest('.code-block')?.querySelector('pre code');if(!code)return;try{await copyText(code.textContent||'');setCodeCopyState(button,'copied')}catch{setCodeCopyState(button,'error')}});
 
 function renderTimelineList() {
   const entries=[...state.timeline].sort((a,b)=>String(b.date).localeCompare(String(a.date))); $('#timeline-count').textContent=entries.length;
