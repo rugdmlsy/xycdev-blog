@@ -1,3 +1,4 @@
 artifacts/
 .wrangler/
 .DS_Store
+.pages-dist/

@@ -65,7 +65,7 @@ Comments use Giscus backed by GitHub Discussions in this repository. The iframe 
 
 ## Deploy
 
-Use the wrapper so the timeline is regenerated and validated before upload:
+Use the wrapper so the timeline is regenerated, validated, copied into a minimal `.pages-dist/` bundle, and then uploaded:
 
 ```sh
 npm run deploy
