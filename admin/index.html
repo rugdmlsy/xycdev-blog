@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <title>xycdev editor</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('xycdev-editor-theme');
+      document.documentElement.dataset.theme = savedTheme === 'light' || savedTheme === 'dark'
+        ? savedTheme
+        : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    } catch {
+      document.documentElement.dataset.theme = 'light';
+    }
+  </script>
   <link rel="stylesheet" href="/admin/styles.css">
   <script src="/admin/app.js" defer></script>
 </head>
@@ -15,7 +25,8 @@
     </a>
     <div class="top-status"><span class="status-dot" id="status-dot"></span><span id="status-text">正在连接本地内容…</span></div>
     <div class="top-actions">
-      <a class="button ghost" href="/" target="_blank" rel="noopener">本地预览 ↗</a>
+      <button class="button theme-toggle" id="theme-toggle" type="button" aria-label="切换浅色/深色背景"><span aria-hidden="true">◐</span><span id="theme-toggle-label">深色</span></button>
+      <a class="button ghost preview-link" href="/" target="_blank" rel="noopener">本地预览 ↗</a>
       <button class="button primary" id="top-publish" type="button">发布</button>
     </div>
   </header>

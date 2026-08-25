@@ -32,6 +32,7 @@ const assertions = [
   [contentLib.includes('normalizePost') && contentLib.includes('normalizeSlug') && contentLib.includes('markdownToHtml'), 'Content validation helpers are missing'],
   [adminServer.includes("const HOST = '127.0.0.1'") && adminServer.includes("'x-blog-admin'") && adminServer.includes('/api/publish') && adminServer.includes('/api/posts'), 'Local-only admin API protections/routes are missing'],
   [adminHtml.includes('id="post-editor"') && adminHtml.includes('id="timeline-editor"') && adminHtml.includes('id="publish-site"'), 'Visual admin workflows are missing'],
+  [adminHtml.includes('id="theme-toggle"') && adminApp.includes('xycdev-editor-theme') && adminApp.includes('setTheme') && adminStyles.includes(':root[data-theme="dark"]'), 'Admin light/dark theme toggle is missing'],
   [adminApp.includes('savePost') && adminApp.includes('saveTimeline') && adminApp.includes('publishSite') && adminApp.includes('updateMarkdownPreviews'), 'Admin client workflows are incomplete'],
   [adminStyles.includes('.split-layout') && adminStyles.includes('.markdown-preview') && adminStyles.includes('@media(max-width:820px)'), 'Responsive admin styling is missing'],
   [pkg.scripts?.admin === 'node scripts/admin-server.mjs' && pkg.scripts?.build?.includes('build-content.mjs'), 'npm admin/build scripts are not wired'],

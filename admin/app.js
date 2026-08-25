@@ -11,6 +11,25 @@ let dirty = false;
 let busy = false;
 let toastTimer = 0;
 
+function currentTheme() { return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'; }
+function updateThemeToggle() {
+  const theme = currentTheme();
+  const toggle = $('#theme-toggle');
+  const label = $('#theme-toggle-label');
+  if (label) label.textContent = theme === 'dark' ? '浅色' : '深色';
+  if (toggle) {
+    const target = theme === 'dark' ? '浅色' : '深色';
+    toggle.setAttribute('aria-label', `切换为${target}背景`);
+    toggle.title = `切换为${target}背景`;
+  }
+}
+function setTheme(theme, persist = true) {
+  const next = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = next;
+  if (persist) localStorage.setItem('xycdev-editor-theme', next);
+  updateThemeToggle();
+}
+
 function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
 function tagsFrom(value) { return [...new Set(String(value || '').split(',').map((x) => x.trim().toLowerCase()).filter(Boolean))]; }
 function localDate() { const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,'0'); const day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
@@ -26,7 +45,7 @@ function setBusy(value, text = '') {
   busy = value;
   $('#status-dot').className = `status-dot ${value ? 'busy' : 'ok'}`;
   $('#status-text').textContent = text || (value ? '正在执行…' : '本地编辑器已连接');
-  $$('.button').forEach((button) => { if (button.id !== 'clear-log') button.disabled = value; });
+  $$('.button').forEach((button) => { if (button.id !== 'clear-log' && button.id !== 'theme-toggle') button.disabled = value; });
 }
 function showError(message) { $('#status-dot').className='status-dot error'; $('#status-text').textContent='操作失败'; toast(message, true); }
 function toast(message, error = false) { const el=$('#toast'); clearTimeout(toastTimer); el.textContent=message; el.className=`toast show${error?' error':''}`; toastTimer=setTimeout(()=>el.className='toast',3200); }
@@ -114,6 +133,8 @@ async function publishSite(){if(dirty)return toast('请先保存当前编辑内�
 function askConfirm(title, copy, actionLabel='确认') { const dialog=$('#confirm-dialog');$('#confirm-title').textContent=title;$('#confirm-copy').textContent=copy;$('#confirm-action').textContent=actionLabel;dialog.showModal();return new Promise((resolve)=>{const onClose=()=>{dialog.removeEventListener('close',onClose);resolve(dialog.returnValue==='confirm')};dialog.addEventListener('close',onClose)}) }
 function updateCountsAndStatus(){ $('#posts-count').textContent=state.posts.length;$('#timeline-count').textContent=state.timeline.length;$('#git-status').textContent=state.gitStatus||'工作区干净'; }
 
+updateThemeToggle();
+$('#theme-toggle').addEventListener('click',()=>setTheme(currentTheme()==='dark'?'light':'dark'));
 $$('.nav-item').forEach((item)=>item.addEventListener('click',()=>switchView(item.dataset.view)));
 $('#top-publish').addEventListener('click',()=>switchView('publish'));
 $('#new-post').addEventListener('click',()=>{if(dirty&&!confirm('当前有未保存修改，仍然新建吗？'))return;selectedPostSlug=null;openPost(null,emptyPost())});
