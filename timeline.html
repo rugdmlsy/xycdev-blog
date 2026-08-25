@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-language="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="xycdev journal 时间线：文章、想法、新闻摘记与随手感想。">
+  <meta name="theme-color" content="#f3efe6">
+  <title>时间线 — xycdev journal</title>
+  <link rel="stylesheet" href="/styles.css?v=20260825-1">
+  <script src="/script.js?v=20260825-1" defer></script>
+</head>
+<body id="top" data-page="timeline">
+  <a class="skip-link" href="#content" data-i18n="common.skip">跳到正文</a>
+
+  <header class="site-header">
+    <a class="site-name" href="/" aria-label="xycdev journal 首页" data-i18n-aria="common.homeAria"><span class="site-name-main">xycdev</span><span class="site-name-sub">journal</span></a>
+    <nav class="site-nav" aria-label="主要导航" data-i18n-aria="common.primaryNav">
+      <a href="/" data-i18n="nav.writing">文章</a>
+      <a class="is-current" href="/timeline.html" data-i18n="nav.timeline">时间线</a>
+      <a href="/#about" data-i18n="nav.about">关于</a>
+      <a href="https://xycdev.com" data-i18n="nav.mainSite">主站 ↗</a>
+    </nav>
+    <div class="header-controls">
+      <button class="language-toggle" type="button" aria-label="Switch to English"><span class="language-toggle-label">EN</span></button>
+      <button class="theme-toggle" type="button" aria-label="切换深浅色主题" data-i18n-aria="theme.toggleAria"><span aria-hidden="true">◐</span><span class="theme-toggle-label">深色</span></button>
+    </div>
+  </header>
+
+  <main id="content" class="timeline-shell">
+    <header class="timeline-header">
+      <p class="timeline-kicker" data-i18n="timeline.kicker">CHRONICLE / 记录</p>
+      <h1 data-i18n="timeline.title">时间线</h1>
+      <p data-i18n="timeline.intro">文章、点子、新闻摘记和偶尔冒出来的想法，都按时间落在这里。</p>
+    </header>
+
+    <section class="timeline-stream" aria-label="时间线" data-i18n-aria="timeline.streamAria">
+      <!-- TIMELINE:START -->
+      <div class="timeline-filter-row" aria-label="Timeline tag filters" data-i18n-aria="timeline.filtersAria">
+        <button class="timeline-filter is-active" type="button" data-timeline-filter="all" data-i18n="timeline.all">全部</button>
+        <button class="timeline-filter" type="button" data-timeline-filter="blog">blog</button>
+        <button class="timeline-filter" type="button" data-timeline-filter="tech">tech</button>
+      </div>
+      <div class="timeline-list" aria-live="polite">
+        <article class="timeline-entry timeline-entry-post" data-timeline-tags="blog tech">
+      <div class="timeline-date"><time datetime="2026-08-02" data-timeline-date>2026-08-02</time></div>
+      <div class="timeline-marker" aria-hidden="true"></div>
+      <div class="timeline-entry-main">
+        <div class="timeline-tags"><button class="timeline-tag" type="button" data-timeline-tag-jump="blog">blog</button><button class="timeline-tag" type="button" data-timeline-tag-jump="tech">tech</button></div>
+        <h2><a href="/posts/placeholder.html"><span class="timeline-copy" data-language-copy="zh">占位文章标题</span><span class="timeline-copy" data-language-copy="en" hidden>Placeholder Article Title</span></a></h2>
+        <p class="timeline-summary"><span class="timeline-copy" data-language-copy="zh">占位文章摘要。</span><span class="timeline-copy" data-language-copy="en" hidden>A placeholder article for testing the journal layout and timeline.</span></p>
+        <a class="timeline-entry-link" href="/posts/placeholder.html"><span data-i18n="timeline.readPost">阅读全文</span> <span aria-hidden="true">↗</span></a>
+      </div>
+    </article>
+      </div>
+      <p class="timeline-empty" hidden data-i18n="timeline.empty">这个标签下还没有内容。</p>
+      <!-- TIMELINE:END -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>xycdev journal</strong><span data-i18n="footer.categories">技术与个人</span></div>
+    <p>© 2026 xycdev</p>
+    <div class="footer-links"><a href="/feed.xml">RSS</a><a href="/timeline.html" data-i18n="nav.timeline">时间线</a><a href="#top" data-i18n="common.backTop">回到顶部 ↑</a></div>
+  </footer>
+</body>
+</html>

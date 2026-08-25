@@ -11,7 +11,7 @@ const translations = {
   zh: {
     'common.skip': '跳到正文', 'common.homeAria': 'xycdev journal 首页', 'common.primaryNav': '主要导航',
     'common.readMore': '阅读全文', 'common.backTop': '回到顶部 ↑', 'common.back': '返回', 'common.backList': '返回文章列表',
-    'nav.writing': '文章', 'nav.about': '关于', 'nav.mainSite': '主站 ↗',
+    'nav.writing': '文章', 'nav.timeline': '时间线', 'nav.about': '关于', 'nav.mainSite': '主站 ↗',
     'theme.toggleAria': '切换深浅色主题', 'theme.dark': '深色', 'theme.light': '浅色',
     'category.tech': '技术', 'category.personal': '个人', 'filter.all': '全部', 'meta.read3': '3 分钟阅读', 'tag.placeholder': '占位内容',
     'home.kicker': '栏目说明占位文字', 'home.title': '博客主页标题占位文字。',
@@ -22,6 +22,8 @@ const translations = {
     'home.nowElsewhere': '其他动态', 'home.nowElsewhereText': '个人动态占位文字', 'home.updated': '更新于',
     'home.archive': '归档', 'home.archiveAria': '按年份筛选文章', 'home.clearArchive': '清除年份筛选',
     'footer.categories': '技术与个人',
+    'timeline.kicker': 'CHRONICLE / 记录', 'timeline.title': '时间线', 'timeline.intro': '文章、点子、新闻摘记和偶尔冒出来的想法，都按时间落在这里。',
+    'timeline.filtersAria': '按标签筛选时间线', 'timeline.streamAria': '时间线', 'timeline.all': '全部', 'timeline.empty': '这个标签下还没有内容。', 'timeline.readPost': '阅读全文', 'timeline.openLink': '打开链接',
     'post.placeholder.title': '占位文章标题', 'post.placeholder.summary': '这是一篇用于确认博客排版、导航、归档与评论功能的占位文章，之后可直接替换为正式内容。',
     'article.deck': '这是文章摘要的占位文字，用于确认标题、摘要、正文和目录在不同设备上的排版效果。',
     'article.tocAria': '文章目录', 'article.toc': '目录', 'article.sectionOne': '第一节标题', 'article.sectionTwo': '第二节标题',
@@ -35,7 +37,7 @@ const translations = {
   en: {
     'common.skip': 'Skip to content', 'common.homeAria': 'xycdev journal home', 'common.primaryNav': 'Primary navigation',
     'common.readMore': 'Read article', 'common.backTop': 'Back to top ↑', 'common.back': 'Back', 'common.backList': 'Back to all writing',
-    'nav.writing': 'Writing', 'nav.about': 'About', 'nav.mainSite': 'Main site ↗',
+    'nav.writing': 'Writing', 'nav.timeline': 'Timeline', 'nav.about': 'About', 'nav.mainSite': 'Main site ↗',
     'theme.toggleAria': 'Switch color theme', 'theme.dark': 'Dark', 'theme.light': 'Light',
     'category.tech': 'Technology', 'category.personal': 'Personal', 'filter.all': 'All', 'meta.read3': '3 min read', 'tag.placeholder': 'Placeholder',
     'home.kicker': 'Section description placeholder', 'home.title': 'Homepage title placeholder.',
@@ -46,6 +48,8 @@ const translations = {
     'home.nowElsewhere': 'Elsewhere', 'home.nowElsewhereText': 'Personal-update placeholder', 'home.updated': 'Updated',
     'home.archive': 'Archive', 'home.archiveAria': 'Filter posts by year', 'home.clearArchive': 'Clear year filter',
     'footer.categories': 'Technology and Personal',
+    'timeline.kicker': 'CHRONICLE / LOG', 'timeline.title': 'Timeline', 'timeline.intro': 'Posts, ideas, news notes, and passing thoughts, kept together in chronological order.',
+    'timeline.filtersAria': 'Filter timeline by tag', 'timeline.streamAria': 'Timeline', 'timeline.all': 'All', 'timeline.empty': 'Nothing under this tag yet.', 'timeline.readPost': 'Read post', 'timeline.openLink': 'Open link',
     'post.placeholder.title': 'Placeholder Article Title', 'post.placeholder.summary': 'A placeholder article for testing typography, navigation, archives, and comments before real posts are published.',
     'article.deck': 'Placeholder summary copy for testing the article title, deck, body, and table of contents across screen sizes.',
     'article.tocAria': 'Article contents', 'article.toc': 'Contents', 'article.sectionOne': 'First Section', 'article.sectionTwo': 'Second Section',
@@ -101,6 +105,9 @@ function updateDocumentMetadata() {
   if (page === 'article') {
     document.title = `${translate('post.placeholder.title')} — xycdev journal`;
     description?.setAttribute('content', translate('article.deck'));
+  } else if (page === 'timeline') {
+    document.title = `${translate('timeline.title')} — xycdev journal`;
+    description?.setAttribute('content', translate('timeline.intro'));
   } else {
     document.title = 'xycdev journal';
     description?.setAttribute('content', activeLanguage === 'zh' ? '博客描述占位文字。' : 'Blog description placeholder.');
@@ -114,18 +121,33 @@ function updateNowDate() {
   node.textContent = new Intl.DateTimeFormat(activeLanguage === 'zh' ? 'zh-CN' : 'en', { year: 'numeric', month: 'long', day: 'numeric' }).format(date);
 }
 
+function updateTimelineDates() {
+  document.querySelectorAll('[data-timeline-date]').forEach((node) => {
+    const raw = node.dateTime;
+    if (!raw) return;
+    const date = new Date(raw.length === 10 ? `${raw}T00:00:00` : raw);
+    if (Number.isNaN(date.getTime())) return;
+    const hasTime = raw.includes('T');
+    node.textContent = new Intl.DateTimeFormat(activeLanguage === 'zh' ? 'zh-CN' : 'en', {
+      year: 'numeric', month: 'short', day: 'numeric', ...(hasTime ? { hour: '2-digit', minute: '2-digit' } : {})
+    }).format(date);
+  });
+}
+
 function applyLanguage(language) {
   activeLanguage = translations[language] ? language : 'zh';
   root.dataset.language = activeLanguage;
   root.lang = activeLanguage === 'zh' ? 'zh-CN' : 'en';
   document.querySelectorAll('[data-i18n]').forEach((element) => { element.textContent = translate(element.dataset.i18n); });
   document.querySelectorAll('[data-i18n-aria]').forEach((element) => { element.setAttribute('aria-label', translate(element.dataset.i18nAria)); });
+  document.querySelectorAll('[data-language-copy]').forEach((element) => { element.hidden = element.dataset.languageCopy !== activeLanguage; });
   if (languageLabel && languageToggle) {
     languageLabel.textContent = activeLanguage === 'zh' ? 'EN' : '中文';
     languageToggle.setAttribute('aria-label', activeLanguage === 'zh' ? 'Switch to English' : '切换为中文');
   }
   applyTheme(root.dataset.theme || 'light');
   updateNowDate();
+  updateTimelineDates();
   updateDocumentMetadata();
   updateGiscus();
 }
@@ -201,3 +223,33 @@ if (readingProgress && articleContent) {
   }
   window.requestAnimationFrame(updateReadingProgress);
 }
+
+
+const timelineFilters = [...document.querySelectorAll('[data-timeline-filter]')];
+const timelineEntries = [...document.querySelectorAll('.timeline-entry[data-timeline-tags]')];
+const timelineEmpty = document.querySelector('.timeline-empty');
+let timelineFilter = 'all';
+
+function applyTimelineFilter() {
+  if (!timelineEntries.length) return;
+  let visibleCount = 0;
+  timelineEntries.forEach((entry) => {
+    const tags = entry.dataset.timelineTags.split(/\s+/).filter(Boolean);
+    const visible = timelineFilter === 'all' || tags.includes(timelineFilter);
+    entry.hidden = !visible;
+    if (visible) visibleCount += 1;
+  });
+  timelineFilters.forEach((button) => button.classList.toggle('is-active', button.dataset.timelineFilter === timelineFilter));
+  if (timelineEmpty) timelineEmpty.hidden = visibleCount !== 0;
+}
+
+timelineFilters.forEach((button) => button.addEventListener('click', () => {
+  timelineFilter = button.dataset.timelineFilter;
+  applyTimelineFilter();
+}));
+document.querySelectorAll('[data-timeline-tag-jump]').forEach((button) => button.addEventListener('click', () => {
+  timelineFilter = button.dataset.timelineTagJump;
+  applyTimelineFilter();
+  document.querySelector('.timeline-filter-row')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}));
+applyTimelineFilter();
