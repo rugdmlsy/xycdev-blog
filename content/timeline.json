@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "id": "90a8290d-e6f3-4278-83fd-3a8571ab8d35",
+      "date": "2026-08-26T14:12:00.000Z",
+      "tags": [
+        "news"
+      ],
+      "content": {
+        "zh": "GLM-5.3-Flash发布。",
+        "en": "GLM‑5.3‑Flash Released."
+      },
+      "url": "https://x.com/Zai_org/status/2092616204787626030?s=20"
+    },
+    {
       "id": "2807ca43-11fa-48d3-a0dc-e8a8c275cc07",
       "date": "2026-08-26T12:31:00.000Z",
       "tags": [
