@@ -1,32 +1,3 @@
 {
-  "posts": [
-    {
-      "slug": "placeholder",
-      "date": "2026-08-02",
-      "category": "tech",
-      "featured": false,
-      "tags": [
-        "placeholder"
-      ],
-      "timelineTags": [
-        "tech"
-      ],
-      "title": {
-        "zh": "占位文章标题",
-        "en": "Placeholder Article Title"
-      },
-      "summary": {
-        "zh": "这是一篇用于确认博客排版、导航、归档与评论功能的占位文章，之后可直接替换为正式内容。",
-        "en": "A placeholder article for testing typography, navigation, archives, and comments before real posts are published."
-      },
-      "timelineSummary": {
-        "zh": "占位文章摘要。",
-        "en": "A placeholder article for testing the journal layout and timeline."
-      },
-      "body": {
-        "zh": "这是正文开头的占位段落。正式发布文章时，可以替换标题、摘要、元信息、目录与以下正文内容。\n\n> 这里是一段引用文字，用于展示引用块的视觉样式。\n\n## 第一节标题\n\n这里是第一节的占位内容。可以加入普通段落、链接、列表、代码和其他文章元素。\n\n- 列表项目一\n- 列表项目二\n\n## 第二节标题\n\n这里是第二节的占位内容。页面顶部的阅读进度条会在正文阅读完成时达到百分之百。\n\n```js\nconst placeholder = true;\n```\n\n占位文章到此结束。",
-        "en": "This is the opening placeholder paragraph. Replace the title, summary, metadata, contents, and body when publishing a real article.\n\n> This is placeholder quotation copy for previewing the blockquote style.\n\n## First Section\n\nPlaceholder copy for the first section. A real article can contain paragraphs, links, lists, code, and other elements.\n\n- First list item\n- Second list item\n\n## Second Section\n\nPlaceholder copy for the second section. The reading progress bar reaches one hundred percent when the article body has been read.\n\n```js\nconst placeholder = true;\n```\n\nEnd of placeholder article."
-      }
-    }
-  ]
+  "posts": []
 }

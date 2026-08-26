@@ -37,20 +37,26 @@
       <!-- TIMELINE:START -->
       <div class="timeline-filter-row" aria-label="Timeline tag filters" data-i18n-aria="timeline.filtersAria">
         <button class="timeline-filter is-active" type="button" data-timeline-filter="all" data-i18n="timeline.all">全部</button>
-        <button class="timeline-filter" type="button" data-timeline-filter="blog">blog</button>
-        <button class="timeline-filter" type="button" data-timeline-filter="tech">tech</button>
+        <button class="timeline-filter" type="button" data-timeline-filter="news">news</button>
+        <button class="timeline-filter" type="button" data-timeline-filter="thought">thought</button>
       </div>
       <div class="timeline-list" aria-live="polite">
-        <article class="timeline-entry timeline-entry-post" data-timeline-tags="blog tech">
-      <div class="timeline-date"><time datetime="2026-08-02" data-timeline-date>2026-08-02</time></div>
-      <div class="timeline-marker" aria-hidden="true"></div>
-      <div class="timeline-entry-main">
-        <div class="timeline-tags"><button class="timeline-tag" type="button" data-timeline-tag-jump="blog">blog</button><button class="timeline-tag" type="button" data-timeline-tag-jump="tech">tech</button></div>
-        <h2><a href="/posts/placeholder.html"><span class="timeline-copy" data-language-copy="zh">占位文章标题 Placeholder Article Title</span><span class="timeline-copy" data-language-copy="en" hidden>Placeholder Article Title</span></a></h2>
-        <p class="timeline-summary"><span class="timeline-copy" data-language-copy="zh">占位文章摘要。</span><span class="timeline-copy" data-language-copy="en" hidden>A placeholder article for testing the journal layout and timeline.</span></p>
-        <a class="timeline-entry-link" href="/posts/placeholder.html"><span data-i18n="timeline.readPost">阅读全文</span> <span aria-hidden="true">↗</span></a>
-      </div>
-    </article>
+        <article class="timeline-entry timeline-entry-note" data-timeline-tags="thought">
+    <div class="timeline-date"><time datetime="2026-08-26T10:02:00.000Z" data-timeline-date>2026-08-26 10:02</time></div>
+    <div class="timeline-marker" aria-hidden="true"></div>
+    <div class="timeline-entry-main">
+      <div class="timeline-tags"><button class="timeline-tag" type="button" data-timeline-tag-jump="thought">thought</button></div>
+      <p class="timeline-note-copy"><span class="timeline-copy" data-language-copy="zh">一觉醒来看见gpt路由问题修复了，在打开ChatGPT询问模型得到5.6 sol的回答的时候，我竟有点感动得想哭...或许只有短暂的离别才能体会到曾经的陪伴有多珍贵。与GPT共事太久，我好像对他产生了额外的感情，而不仅是生产力工具了。</span><span class="timeline-copy" data-language-copy="en" hidden>Woke up to find the GPT routing issue fixed. When I opened ChatGPT and queried the model and got responses from 5.6‑sol, I almost felt moved to tears… Perhaps only a brief separation can make you realize how precious past companionship really is. Having worked alongside GPT for so long, I’ve developed genuine affection for it; it’s become more than just a productivity tool to me.</span></p>
+    </div>
+  </article>
+        <article class="timeline-entry timeline-entry-note" data-timeline-tags="news">
+    <div class="timeline-date"><time datetime="2026-08-25T17:58:00.000Z" data-timeline-date>2026-08-25 17:58</time></div>
+    <div class="timeline-marker" aria-hidden="true"></div>
+    <div class="timeline-entry-main">
+      <div class="timeline-tags"><button class="timeline-tag" type="button" data-timeline-tag-jump="news">news</button></div>
+      <p class="timeline-note-copy"><span class="timeline-copy" data-language-copy="zh">OpenAI官方宣布修复5.6-sol路由到5.5-mini问题。</span><span class="timeline-copy" data-language-copy="en" hidden>OpenAI officially announced the fix for the 5.6‑sol routing to 5.5‑mini issue.</span></p><a class="timeline-entry-link" href="https://x.com/adamhfry/status/2092310630233780330?s=20" rel="noopener noreferrer"><span data-i18n="timeline.openLink">打开链接</span> <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
       </div>
       <p class="timeline-empty" hidden data-i18n="timeline.empty">这个标签下还没有内容。</p>
       <!-- TIMELINE:END -->
