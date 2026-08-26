@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "id": "2807ca43-11fa-48d3-a0dc-e8a8c275cc07",
+      "date": "2026-08-26T12:31:00.000Z",
+      "tags": [
+        "thought"
+      ],
+      "content": {
+        "zh": "有了AI，我真的热衷于造各种各样的轮子，比如让AI自己搓会议转录软件、todo list app、文件浏览器等，甚至想让他重搓一套office。自己定制功能的感觉太妙了，再也不用对着各种难用的软件骂街。感觉会是未来的一个趋势。",
+        "en": "AI has made me obsessed with reinventing all kinds of wheels. I get it to churn out meeting‑transcription software, todo‑list apps, file browsers, and I’m even thinking of having it rebuild a full office suite. It’s fantastic to have fully custom features. No more ranting about clunky apps. This looks like an upcoming trend."
+      },
+      "url": ""
+    },
+    {
       "id": "fbcb0522-c23c-4ca7-b886-946db7330960",
       "date": "2026-08-26T10:02:00.000Z",
       "tags": [
