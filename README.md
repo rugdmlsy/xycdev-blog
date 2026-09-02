@@ -72,6 +72,24 @@ Multiple tags and an English version are supported:
 npm run timeline:add -- --tag idea --tag research --text "中文" --text-en "English"
 ```
 
+## Automatic model-release news
+
+`npm run news:models` checks official sources from major model providers and adds only new-model/model-version announcements to `content/timeline.json`. Automatic entries use the tags `news` and `model-release`, so they remain editable/deletable in the normal timeline editor.
+
+The filter is intentionally conservative: an item must identify a model and look like the provider's actual launch announcement. Pricing changes, partnerships, integrations, availability on third-party platforms, safety/system-card posts, benchmarks, tutorials, incidents, and other general company news are rejected. Current provider coverage includes OpenAI, Anthropic, Google DeepMind, Meta, xAI, Mistral AI, DeepSeek, Qwen, Z.ai, ByteDance Seed, and Moonshot AI/Kimi.
+
+Useful commands:
+
+```sh
+npm run news:models:test   # classifier self-test
+npm run news:models        # one manual scan
+bash scripts/install-model-news-bot.sh
+```
+
+The installer creates a dedicated clean Git worktree and a macOS LaunchAgent (`com.xycdev.blog-model-release-news`) that scans hourly. It never operates in the authoring worktree. When there is no new release it makes no commit and performs no deployment. When a release is accepted, it regenerates and validates the timeline, commits only `content/timeline.json` and `timeline.html`, pushes `main`, and deploys the existing Cloudflare Pages Direct Upload project. OpenAI and Qwen use persistent official-URL baselines so edits to old pages cannot be mistaken for new releases.
+
+Runtime state and logs are kept under `~/Library/Caches/xycdev-blog-model-news/` rather than in the repository.
+
 ## Comments
 
 Comments use Giscus backed by GitHub Discussions in this repository. The iframe loads the hosted `giscus-light.css` or `giscus-dark.css` palette so its colors follow the journal theme.

@@ -8,6 +8,8 @@
     "timeline:build": "node scripts/build-timeline.mjs",
     "timeline:add": "node scripts/timeline-add.mjs",
     "timeline:publish": "node scripts/publish-timeline.mjs",
+    "news:models": "node scripts/model-release-news.mjs",
+    "news:models:test": "node scripts/model-release-news.mjs --self-test",
     "check": "node scripts/check.mjs",
     "deploy": "npm run build && npm run check && npm run prepare:deploy && npx --yes --prefer-offline wrangler@4.123.0 pages deploy .pages-dist --project-name xycdev-journal",
     "prepare:deploy": "node scripts/prepare-deploy.mjs",

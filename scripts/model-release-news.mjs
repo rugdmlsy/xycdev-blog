@@ -1,0 +1,425 @@
+import { randomUUID } from 'node:crypto';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
+
+const ROOT = process.cwd();
+const TIMELINE_PATH = process.env.MODEL_NEWS_TIMELINE_PATH
+  ? path.resolve(process.env.MODEL_NEWS_TIMELINE_PATH)
+  : path.join(ROOT, 'content', 'timeline.json');
+const LOOKBACK_DAYS = Math.max(1, Number(process.env.MODEL_NEWS_LOOKBACK_DAYS || 10));
+const FETCH_TIMEOUT_MS = Math.max(3000, Number(process.env.MODEL_NEWS_FETCH_TIMEOUT_MS || 15000));
+const USER_AGENT = 'Mozilla/5.0';
+const STATE_PATH = process.env.MODEL_NEWS_STATE_PATH
+  ? path.resolve(process.env.MODEL_NEWS_STATE_PATH)
+  : path.join(os.homedir(), '.cache', 'xycdev-blog', 'model-release-news-state.json');
+const NOW = process.env.MODEL_NEWS_NOW ? new Date(process.env.MODEL_NEWS_NOW) : new Date();
+const CUTOFF = new Date(NOW.getTime() - LOOKBACK_DAYS * 86400_000);
+
+const RELEASE_SIGNAL = /\b(?:introduc(?:e|es|ed|ing)|announc(?:e|es|ed|ing)|launch(?:es|ed|ing)?|releas(?:e|es|ed|ing)|preview(?:s|ed|ing)?|general availability|ga release)\b|正式(?:发布|推出|上线)|发布并开源|发布|推出|全新模型|模型上线/iu;
+const NEGATIVE_TITLE = /\b(?:system card|safety|safeguard|pricing|price|discount|partnership|partner|copilot|bedrock|azure|aws|vertex|policy|benchmark|evaluation|evals|research agenda|how to|guide|tutorial|usage|limits?|incident|watermark|availability in|now in|support for|integration|integrating|improving|upgrade your|changelog)\b|价格|降价|优惠|合作|接入|安全|水印|评测|教程|指南|事故|限额|更新日志/iu;
+const STRONG_TITLE_SIGNAL = /^(?:introducing|announcing|previewing|launching|releasing)|\b(?:ga release|official(?:ly)? released|official launch)\b|(?:正式发布|正式推出|发布并开源|全新发布)/iu;
+
+const SOURCES = [
+  {
+    id: 'openai', company: 'OpenAI', kind: 'sitemap-new-url',
+    roots: ['https://openai.com/sitemap.xml/release/', 'https://openai.com/sitemap.xml/product/'],
+    includeUrl: (url) => /^https:\/\/openai\.com\/index\//i.test(url),
+    model: /\b(?:GPT[-‑ ]?[A-Za-z0-9.]+(?:[-‑ ][A-Za-z0-9.]+){0,2}|o[1-9](?:[-‑ ][A-Za-z0-9.]+){0,2}|Sora(?:[-‑ ][A-Za-z0-9.]+){0,2}|DALL[-‑· ]?E(?:[-‑ ][A-Za-z0-9.]+){0,2}|Whisper(?:[-‑ ][A-Za-z0-9.]+){0,2})\b/giu,
+  },
+  {
+    id: 'anthropic', company: 'Anthropic', kind: 'sitemap', roots: ['https://www.anthropic.com/sitemap.xml'],
+    includeUrl: (url) => /^https:\/\/www\.anthropic\.com\/news\//i.test(url),
+    model: /\bClaude\s+(?:(?:Opus|Sonnet|Haiku|Fable|Mythos)\s*)?\d+(?:\.\d+)*\b/giu,
+  },
+  {
+    id: 'google-deepmind', company: 'Google DeepMind', kind: 'sitemap', roots: ['https://deepmind.google/sitemap.xml'],
+    includeUrl: (url) => /^https:\/\/deepmind\.google\/blog\//i.test(url),
+    model: /\b(?:(?:Gemini|Gemma|Veo|Imagen|Genie)\s+(?:[A-Za-z][A-Za-z-]*\s+){0,2}\d+(?:\.\d+)*(?:\s+[A-Za-z][A-Za-z-]*)?|Gemini\s+(?:Omni|Robotics)(?:\s+\d+(?:\.\d+)*)?)\b/giu,
+  },
+  {
+    id: 'meta', company: 'Meta', kind: 'index', roots: ['https://ai.meta.com/blog/'],
+    includeUrl: (url) => /^https:\/\/ai\.meta\.com\/blog\//i.test(url) && url !== 'https://ai.meta.com/blog/',
+    model: /\b(?:Llama\s*\d+(?:\.\d+)*(?:\s*\d+B)?|Muse\s+(?:Spark(?:\s*\d+(?:\.\d+)*)?|Image(?:\s*\d+(?:\.\d+)*)?|Video(?:\s*\d+(?:\.\d+)*)?))\b/giu,
+  },
+  {
+    id: 'mistral', company: 'Mistral AI', kind: 'sitemap', roots: ['https://mistral.ai/sitemap-index.xml'],
+    includeUrl: (url) => /^https:\/\/mistral\.ai\/news\//i.test(url),
+    model: /\b(?:Mistral\s+(?:(?:Large|Medium|Small|Nemo|Next)(?:\s*\d+(?:\.\d+)*)?|OCR\s*\d+)|Codestral(?:\s*\d+(?:\.\d+)*)?|Devstral(?:\s*\d+(?:\.\d+)*)?|Pixtral(?:\s+[A-Za-z0-9.]+)?|Voxtral(?:\s+[A-Za-z0-9.]+)?|Ministral(?:\s+[A-Za-z0-9.]+)?|Magistral(?:\s+[A-Za-z0-9.]+)?|Mathstral(?:\s+[A-Za-z0-9.]+)?|Robostral(?:\s+[A-Za-z0-9.]+)?|Leanstral(?:\s+[A-Za-z0-9.]+)?|Shieldstral(?:\s+[A-Za-z0-9.]+)?)\b/giu,
+  },
+  {
+    id: 'deepseek', company: 'DeepSeek', kind: 'sitemap', roots: ['https://api-docs.deepseek.com/sitemap.xml'],
+    includeUrl: (url) => /^https:\/\/api-docs\.deepseek\.com\/news\//i.test(url),
+    model: /\bDeepSeek[-‑ ]?[A-Za-z0-9.]+(?:[-‑ ][A-Za-z0-9.]+){0,2}\b/giu,
+  },
+  {
+    id: 'qwen', company: 'Qwen', kind: 'index-new-url', roots: ['https://qwen.ai/blog'],
+    includeUrl: (url) => /^https:\/\/qwen\.ai\/blog(?:\?|$)/i.test(url),
+    model: /\b(?:Qwen|QwQ|QVQ)[-A-Za-z0-9.]+(?:[-‑ ][A-Za-z0-9.]+){0,2}\b/giu,
+  },
+  {
+    id: 'zai', company: 'Z.ai', kind: 'release-notes', roots: ['https://docs.z.ai/release-notes/new-released'],
+    model: /\bGLM[-A-Za-z0-9.]+\b/giu,
+  },
+  {
+    id: 'bytedance-seed', company: 'ByteDance Seed', kind: 'sitemap', roots: ['https://seed.bytedance.com/sitemap.xml'],
+    includeUrl: (url) => /^https:\/\/seed\.bytedance\.com\/blog\//i.test(url),
+    model: /\b(?:(?:Seedance|Seedream|SeedRealtime|Seed)\s*[- ]?\s*\d+(?:\.\d+)*(?:\s+(?:Pro|Lite|Preview))?|Seed\s+Full[- ]Duplex\s+Speech\s+LLM)\b/giu,
+  },
+  {
+    id: 'kimi', company: 'Moonshot AI', kind: 'index', roots: ['https://www.kimi.com/en/blog/'],
+    includeUrl: (url) => /^https:\/\/www\.kimi\.com\/en\/blog\//i.test(url) && url !== 'https://www.kimi.com/en/blog/',
+    model: /\bKimi[- ]+[A-Za-z0-9][A-Za-z0-9.-]*(?:\s+(?:Code|Thinking|Turbo|Preview))?\b/giu,
+  },
+  {
+    id: 'xai', company: 'xAI', kind: 'bing-rss', roots: ['https://www.bing.com/news/search?q=site%3Ax.ai%2Fnews%20Grok&format=rss'],
+    model: /\bGrok\s*\d+(?:\.\d+)*(?:\s+(?:Fast|Mini|Code|Heavy|Reasoning|Beta|Preview))?\b/giu,
+  },
+];
+
+function decodeEntities(value = '') {
+  return String(value)
+    .replaceAll('&amp;', '&').replaceAll('&lt;', '<').replaceAll('&gt;', '>')
+    .replaceAll('&quot;', '"').replaceAll('&#39;', "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)));
+}
+
+function stripHtml(html = '') {
+  return decodeEntities(String(html)
+    .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<noscript\b[\s\S]*?<\/noscript>/gi, ' ')
+    .replace(/<[^>]+>/g, ' '))
+    .replace(/\s+/g, ' ').trim();
+}
+
+function normalizeUrl(raw, base) {
+  try {
+    const url = new URL(decodeEntities(raw), base);
+    url.hash = '';
+    for (const key of [...url.searchParams.keys()]) {
+      if (/^(?:utm_|ref$|source$|fbclid$|gclid$)/i.test(key)) url.searchParams.delete(key);
+    }
+    return url.toString();
+  } catch { return ''; }
+}
+
+async function fetchText(url) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, {
+      redirect: 'follow', signal: controller.signal,
+      headers: { 'user-agent': USER_AGENT, accept: 'text/html,application/xhtml+xml,application/xml,text/xml;q=0.9,*/*;q=0.8' },
+    });
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+    return { text: await response.text(), finalUrl: response.url };
+  } finally { clearTimeout(timer); }
+}
+
+function sitemapItems(xml) {
+  return [...String(xml).matchAll(/<url>\s*<loc>([^<]+)<\/loc>([\s\S]*?)<\/url>/gi)].map((match) => ({
+    url: decodeEntities(match[1].trim()),
+    lastmod: decodeEntities((match[2].match(/<lastmod>([^<]+)<\/lastmod>/i) || [])[1] || ''),
+  }));
+}
+
+function sitemapChildren(xml) {
+  return [...String(xml).matchAll(/<sitemap>\s*<loc>([^<]+)<\/loc>[\s\S]*?<\/sitemap>/gi)].map((m) => decodeEntities(m[1].trim()));
+}
+
+async function discoverSitemap(source, { includeAll = false } = {}) {
+  const out = [];
+  const queue = source.roots.map((url) => ({ url, depth: 0 }));
+  const seen = new Set();
+  while (queue.length) {
+    const { url, depth } = queue.shift();
+    if (seen.has(url)) continue;
+    seen.add(url);
+    const { text } = await fetchText(url);
+    const children = sitemapChildren(text);
+    if (children.length && depth < 2) {
+      for (const child of children) queue.push({ url: child, depth: depth + 1 });
+      continue;
+    }
+    for (const item of sitemapItems(text)) {
+      if (!source.includeUrl?.(item.url)) continue;
+      const lm = item.lastmod ? new Date(item.lastmod) : null;
+      if (!includeAll && lm && !Number.isNaN(lm.valueOf()) && lm < new Date(CUTOFF.getTime() - 7 * 86400_000)) continue;
+      out.push(item);
+    }
+  }
+  const unique = [...new Map(out.map((item) => [item.url, item])).values()]
+    .sort((a, b) => Date.parse(b.lastmod || 0) - Date.parse(a.lastmod || 0));
+  return includeAll ? unique : unique.slice(0, 80);
+}
+
+async function discoverIndex(source) {
+  const root = source.roots[0];
+  const { text, finalUrl } = await fetchText(root);
+  const urls = [];
+  for (const match of text.matchAll(/href\s*=\s*["']([^"']+)["']/gi)) {
+    const url = normalizeUrl(match[1], finalUrl || root);
+    if (url && source.includeUrl?.(url)) urls.push({ url, lastmod: '' });
+  }
+  return [...new Map(urls.map((item) => [item.url, item])).values()].slice(0, 80);
+}
+
+function bingActualUrl(raw) {
+  try {
+    const u = new URL(decodeEntities(raw));
+    const nested = u.searchParams.get('url');
+    return nested ? decodeURIComponent(nested) : u.toString();
+  } catch { return ''; }
+}
+
+async function discoverBingRss(source) {
+  const { text } = await fetchText(source.roots[0]);
+  const items = [];
+  for (const item of text.matchAll(/<item>([\s\S]*?)<\/item>/gi)) {
+    const body = item[1];
+    const title = decodeEntities((body.match(/<title>([\s\S]*?)<\/title>/i) || [])[1] || '').trim();
+    const link = bingActualUrl((body.match(/<link>([\s\S]*?)<\/link>/i) || [])[1] || '');
+    const date = decodeEntities((body.match(/<pubDate>([^<]+)<\/pubDate>/i) || [])[1] || '');
+    const description = stripHtml((body.match(/<description>([\s\S]*?)<\/description>/i) || [])[1] || '');
+    if (link.startsWith('https://x.ai/news/')) items.push({ url: link, lastmod: date, prefetched: { title, description, date } });
+  }
+  return items;
+}
+
+function metaContent(html, key) {
+  const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for (const attr of ['property', 'name', 'itemprop']) {
+    const a = html.match(new RegExp(`<meta\\s+[^>]*${attr}=["']${escaped}["'][^>]*content=["']([^"']*)["'][^>]*>`, 'i'));
+    if (a) return decodeEntities(a[1]);
+    const b = html.match(new RegExp(`<meta\\s+[^>]*content=["']([^"']*)["'][^>]*${attr}=["']${escaped}["'][^>]*>`, 'i'));
+    if (b) return decodeEntities(b[1]);
+  }
+  return '';
+}
+
+function articleFromHtml(html, url, fallbackDate = '') {
+  const title = metaContent(html, 'og:title') || metaContent(html, 'twitter:title') || stripHtml((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1] || '') || stripHtml((html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || '');
+  const description = metaContent(html, 'description') || metaContent(html, 'og:description');
+  const jsonDate = (html.match(/["']datePublished["']\s*:\s*["']([^"']+)/i) || [])[1] || '';
+  const timeDate = (html.match(/<time\b[^>]*datetime=["']([^"']+)["']/i) || [])[1] || '';
+  const date = metaContent(html, 'article:published_time') || metaContent(html, 'datePublished') || jsonDate || timeDate || fallbackDate;
+  return { url, title: stripHtml(title), description: stripHtml(description), date, body: stripHtml(html).slice(0, 12000) };
+}
+
+function modelNames(source, article) {
+  if (source.id === 'openai') {
+    let slug = '';
+    try { slug = decodeURIComponent(new URL(article.url).pathname.split('/').filter(Boolean).at(-1) || ''); } catch {}
+    const version = slug.match(/gpt-(\d+)-(\d+)(?:-([a-z0-9-]+))?/i);
+    if (version) {
+      const base = `GPT-${version[1]}.${version[2]}`;
+      const tail = String(version[3] || '');
+      if (tail.startsWith('mini-and-nano')) return [`${base} Mini`, `${base} Nano`];
+      const suffix = (tail.match(/^(sol|instant|mini|nano|pro|turbo|live|codex)/i) || [])[1];
+      return [suffix ? `${base} ${suffix.charAt(0).toUpperCase()}${suffix.slice(1)}` : base];
+    }
+  }
+  const haystack = `${article.title}\n${article.description}`;
+  const matches = [...haystack.matchAll(source.model)].map((m) => m[0].replace(/\s+/g, ' ').trim());
+  return [...new Map(matches.map((name) => [canonical(name), name])).values()].slice(0, 3);
+}
+
+function canonical(value = '') {
+  return String(value).toLowerCase().normalize('NFKC').replace(/[^a-z0-9\p{Script=Han}]+/gu, '');
+}
+
+function isRecent(date) {
+  const parsed = Date.parse(date || '');
+  if (Number.isNaN(parsed)) return false;
+  return parsed >= CUTOFF.getTime() && parsed <= NOW.getTime() + 86400_000;
+}
+
+function classifyRelease(source, article) {
+  const names = modelNames(source, article);
+  if (!names.length) return { accepted: false, reason: 'no-model-name', names };
+  const title = article.title || '';
+  const urlWords = (() => {
+    try { return decodeURIComponent(new URL(article.url).pathname).replace(/[-_/]+/g, ' '); }
+    catch { return ''; }
+  })();
+  const cleanTitle = title.replace(/\s*[|—-]\s*(?:OpenAI|Anthropic|Mistral AI|xAI|Qwen|Moonshot AI|ByteDance Seed).*$/i, '').trim();
+  const titleIsModelLed = names.some((name) => {
+    const lowerTitle = cleanTitle.toLowerCase();
+    const lowerName = name.toLowerCase();
+    return canonical(cleanTitle) === canonical(name)
+      || lowerTitle.startsWith(`${lowerName}:`)
+      || lowerTitle.startsWith(`${lowerName} —`);
+  });
+  const explicitAnnouncement = RELEASE_SIGNAL.test(title) || RELEASE_SIGNAL.test(urlWords) || STRONG_TITLE_SIGNAL.test(title);
+  if (!explicitAnnouncement && !titleIsModelLed) return { accepted: false, reason: 'not-an-announcement-title', names };
+  if (NEGATIVE_TITLE.test(title) && !STRONG_TITLE_SIGNAL.test(title)) return { accepted: false, reason: 'negative-title', names };
+  if (!isRecent(article.date)) return { accepted: false, reason: 'outside-lookback', names };
+  return { accepted: true, reason: 'release', names };
+}
+
+function releaseNotesArticles(source, html, url) {
+  const text = stripHtml(html);
+  const out = [];
+  const regex = /(20\d{2}[-\/]\d{2}[-\/]\d{2})([\s\S]{0,220}?)(GLM[-A-Za-z0-9.]+)/g;
+  for (const match of text.matchAll(regex)) {
+    const date = match[1].replaceAll('/', '-');
+    const model = match[3];
+    out.push({ url: `${url}#${model.toLowerCase()}`, title: `${model} release`, description: match[2].trim(), date, body: `${date} ${match[2]} ${model} 发布` });
+  }
+  return out;
+}
+
+function entryAlreadyExists(entries, article, names) {
+  if (entries.some((entry) => String(entry.url || '').replace(/#.*$/, '') === String(article.url || '').replace(/#.*$/, ''))) return true;
+  const existing = entries.map((entry) => canonical(`${entry.content?.zh || ''} ${entry.content?.en || ''}`));
+  return names.some((name) => existing.some((text) => text.includes(canonical(name))));
+}
+
+function releaseDateIso(date) {
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.valueOf())) return NOW.toISOString();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(String(date))) return `${date}T12:00:00.000Z`;
+  return parsed.toISOString();
+}
+
+function makeEntry(source, article, names) {
+  const joined = names.join(' / ');
+  return {
+    id: randomUUID(),
+    date: releaseDateIso(article.date),
+    tags: ['news', 'model-release'],
+    content: {
+      zh: `${source.company} 发布 ${joined}。`,
+      en: `${source.company} released ${joined}.`,
+    },
+    url: article.url,
+  };
+}
+
+async function loadTimeline() {
+  const raw = JSON.parse(await readFile(TIMELINE_PATH, 'utf8'));
+  return { entries: Array.isArray(raw.entries) ? raw.entries : [] };
+}
+
+async function loadState() {
+  try {
+    const raw = JSON.parse(await readFile(STATE_PATH, 'utf8'));
+    return { seenUrls: raw.seenUrls && typeof raw.seenUrls === 'object' ? raw.seenUrls : {} };
+  } catch (error) {
+    if (error.code !== 'ENOENT') console.warn(`[model-news] state reset: ${error.message}`);
+    return { seenUrls: {} };
+  }
+}
+
+async function saveState(state) {
+  await mkdir(path.dirname(STATE_PATH), { recursive: true });
+  await writeFile(STATE_PATH, JSON.stringify(state, null, 2) + '\n');
+}
+
+function articleFromNewUrl(source, item) {
+  let rawName = '';
+  try {
+    const url = new URL(item.url);
+    rawName = source.id === 'qwen'
+      ? String(url.searchParams.get('id') || '')
+      : decodeURIComponent(url.pathname.split('/').filter(Boolean).at(-1) || '');
+  } catch {}
+  const title = rawName.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return { url: item.url, title, description: title, date: NOW.toISOString(), body: title };
+}
+
+async function inspectSource(source, state) {
+  if (source.kind === 'release-notes') {
+    const { text, finalUrl } = await fetchText(source.roots[0]);
+    return releaseNotesArticles(source, text, finalUrl || source.roots[0]);
+  }
+  if (source.kind === 'sitemap-new-url' || source.kind === 'index-new-url') {
+    const discovered = source.kind === 'sitemap-new-url'
+      ? await discoverSitemap(source, { includeAll: true })
+      : await discoverIndex(source);
+    const previous = new Set(Array.isArray(state.seenUrls[source.id]) ? state.seenUrls[source.id] : []);
+    state.seenUrls[source.id] = discovered.map((item) => item.url);
+    // First scan establishes a baseline. Later scans only classify truly new
+    // official URLs, so edited old pages cannot become fake "new releases".
+    if (!previous.size) return [];
+    return discovered.filter((item) => !previous.has(item.url)).map((item) => articleFromNewUrl(source, item));
+  }
+  const discovered = source.kind === 'sitemap' ? await discoverSitemap(source)
+    : source.kind === 'index' ? await discoverIndex(source)
+      : await discoverBingRss(source);
+  const articles = [];
+  for (const item of discovered) {
+    if (item.prefetched) {
+      articles.push({ url: item.url, title: item.prefetched.title, description: item.prefetched.description, date: item.prefetched.date, body: `${item.prefetched.title} ${item.prefetched.description}` });
+      continue;
+    }
+    try {
+      const { text, finalUrl } = await fetchText(item.url);
+      articles.push(articleFromHtml(text, finalUrl || item.url, item.lastmod));
+    } catch (error) {
+      console.warn(`[model-news] ${source.id}: skip ${item.url}: ${error.message}`);
+    }
+  }
+  return articles;
+}
+
+async function selfTest() {
+  const cases = [
+    ['openai', { title: 'Introducing GPT-5.7', description: 'We are releasing GPT-5.7 today.', date: NOW.toISOString(), body: '' }, true],
+    ['openai', { title: 'GPT-5.6 in GitHub Copilot', description: 'GPT-5.6 is now available in Copilot.', date: NOW.toISOString(), body: '' }, false],
+    ['anthropic', { title: 'Improving Claude Fable 5 biology safeguards', description: 'We are updating safeguards.', date: NOW.toISOString(), body: '' }, false],
+    ['anthropic', { title: 'Anthropic Economic Index: Insights from Claude 3.7 Sonnet', description: 'The report discusses results observed after release.', date: NOW.toISOString(), body: '' }, false],
+    ['anthropic', { title: 'Introducing Claude Fable 5.1 and Claude Mythos 5.1', description: 'Today we launch two new models.', date: NOW.toISOString(), body: '' }, true],
+    ['mistral', { title: 'Mistral x HUMAIN', description: 'A partnership using Mistral models.', date: NOW.toISOString(), body: '' }, false],
+    ['mistral', { title: 'Introducing Shieldstral', description: 'Today we are releasing Shieldstral, our new model.', date: NOW.toISOString(), body: '' }, true],
+    ['xai', { title: 'Grok 4.6 on Microsoft Foundry', description: 'Grok 4.6 is now available on Microsoft Foundry.', date: NOW.toISOString(), body: '', url: 'https://x.ai/news/grok-4-6-microsoft-foundry' }, false],
+    ['bytedance-seed', { title: '一镜成片，随心参考｜Seedance 2.5 正式发布', description: 'Seedance 2.5 正式发布。', date: NOW.toISOString(), body: '' }, true],
+    ['kimi', { title: 'Kimi K3: Open Frontier Intelligence', description: 'Today, we are introducing Kimi K3, our most capable model.', date: NOW.toISOString(), body: '' }, true],
+  ];
+  let failed = 0;
+  for (const [id, article, expected] of cases) {
+    const source = SOURCES.find((item) => item.id === id);
+    const actual = classifyRelease(source, article).accepted;
+    if (actual !== expected) { failed += 1; console.error(`FAIL ${id}: expected ${expected}, got ${actual}: ${article.title}`); }
+  }
+  if (failed) process.exitCode = 1; else console.log(`model-release classifier self-test: ${cases.length}/${cases.length} passed`);
+}
+
+async function main() {
+  if (process.argv.includes('--self-test')) return selfTest();
+  const timeline = await loadTimeline();
+  const state = await loadState();
+  const additions = [];
+  let healthySources = 0;
+  for (const source of SOURCES) {
+    try {
+      const articles = await inspectSource(source, state);
+      healthySources += 1;
+      let accepted = 0;
+      for (const article of articles) {
+        const verdict = classifyRelease(source, article);
+        if (!verdict.accepted) continue;
+        if (entryAlreadyExists([...timeline.entries, ...additions], article, verdict.names)) continue;
+        additions.push(makeEntry(source, article, verdict.names));
+        accepted += 1;
+      }
+      console.log(`[model-news] ${source.company}: checked ${articles.length}, new releases ${accepted}`);
+    } catch (error) {
+      console.warn(`[model-news] ${source.company}: source failed: ${error.message}`);
+    }
+  }
+  if (!healthySources) throw new Error('All model-news sources failed');
+  await saveState(state);
+  if (!additions.length) {
+    console.log(`[model-news] no new model releases in the last ${LOOKBACK_DAYS} days`);
+    return;
+  }
+  timeline.entries.unshift(...additions.sort((a, b) => Date.parse(b.date) - Date.parse(a.date)));
+  await writeFile(TIMELINE_PATH, JSON.stringify(timeline, null, 2) + '\n');
+  console.log(`[model-news] added ${additions.length} timeline entr${additions.length === 1 ? 'y' : 'ies'}:`);
+  for (const entry of additions) console.log(`  - ${entry.date.slice(0, 10)} ${entry.content.en} ${entry.url}`);
+}
+
+await main();
