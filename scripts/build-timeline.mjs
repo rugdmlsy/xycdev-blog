@@ -44,7 +44,14 @@ function firstDate(html) {
 
 async function walkHtml(dir) {
   const out = [];
-  for (const entry of await readdir(dir, { withFileTypes: true })) {
+  let entries;
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch (error) {
+    if (error.code === 'ENOENT') return out;
+    throw error;
+  }
+  for (const entry of entries) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) out.push(...await walkHtml(full));
     else if (entry.isFile() && entry.name.endsWith('.html')) out.push(full);
