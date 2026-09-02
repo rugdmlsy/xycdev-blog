@@ -18,7 +18,10 @@ const PUBLIC_DIRS = ['assets', 'posts'];
 await rm(OUT, { recursive: true, force: true });
 await mkdir(OUT, { recursive: true });
 for (const file of PUBLIC_FILES) await cp(path.join(ROOT, file), path.join(OUT, file));
-for (const dir of PUBLIC_DIRS) await cp(path.join(ROOT, dir), path.join(OUT, dir), { recursive: true });
+for (const dir of PUBLIC_DIRS) {
+  const source = path.join(ROOT, dir);
+  if (await stat(source).catch(() => null)) await cp(source, path.join(OUT, dir), { recursive: true });
+}
 
 async function summarize(dir) {
   let files = 0;

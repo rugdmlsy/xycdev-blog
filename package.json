@@ -13,6 +13,7 @@
     "check": "node scripts/check.mjs",
     "deploy": "npm run build && npm run check && npm run prepare:deploy && npx --yes --prefer-offline wrangler@4.123.0 pages deploy .pages-dist --project-name xycdev-journal",
     "prepare:deploy": "node scripts/prepare-deploy.mjs",
+    "prepare:model-news-deploy": "npm run prepare:deploy && node scripts/prepare-model-news-deploy.mjs",
     "content:build": "node scripts/build-content.mjs",
     "admin": "node scripts/admin-server.mjs"
   }

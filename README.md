@@ -86,7 +86,7 @@ npm run news:models        # one manual scan
 bash scripts/install-model-news-bot.sh
 ```
 
-The installer creates a dedicated clean Git worktree and a macOS LaunchAgent (`com.xycdev.blog-model-release-news`) that scans hourly. It never operates in the authoring worktree. When there is no new release it makes no commit and performs no deployment. When a release is accepted, it regenerates and validates the timeline, commits only `content/timeline.json` and `timeline.html`, pushes `main`, and deploys the existing Cloudflare Pages Direct Upload project. OpenAI and Qwen use persistent official-URL baselines so edits to old pages cannot be mistaken for new releases.
+The installer creates a dedicated clean Git worktree and a macOS LaunchAgent (`com.xycdev.blog-model-release-news`) that scans hourly. It never operates in the authoring worktree. When there is no new release it makes no commit and performs no deployment. When a release is accepted, it regenerates and validates the timeline, commits only `content/timeline.json` and `timeline.html`, and pushes `main`. For the Cloudflare Pages Direct Upload step, it first mirrors the current live site's reachable static files and overlays only the newly generated timeline block; this prevents the automation from rolling back unrelated live CSS/assets/content that may not yet exist in the clean Git worktree. OpenAI and Qwen use persistent official-URL baselines so edits to old pages cannot be mistaken for new releases.
 
 Runtime state and logs are kept under `~/Library/Caches/xycdev-blog-model-news/` rather than in the repository.
 

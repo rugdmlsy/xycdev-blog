@@ -53,8 +53,8 @@ cleanup() {
 trap cleanup EXIT
 
 deploy_current_main() {
-  echo "[model-news-bot] preparing Cloudflare Pages deployment"
-  npm run prepare:deploy
+  echo "[model-news-bot] preparing Cloudflare Pages deployment from live-site overlay"
+  npm run prepare:model-news-deploy
   npx --yes --prefer-offline wrangler@4.123.0 pages deploy .pages-dist --project-name xycdev-journal
   rm -f "$PENDING_DEPLOY"
 }
@@ -68,7 +68,7 @@ rm -rf .pages-dist
 
 if [[ -f "$PENDING_DEPLOY" ]]; then
   echo "[model-news-bot] retrying a previously committed deployment"
-  npm run build
+  npm run timeline:build
   npm run check
   deploy_current_main
 fi
