@@ -17,7 +17,7 @@ const NOW = process.env.MODEL_NEWS_NOW ? new Date(process.env.MODEL_NEWS_NOW) : 
 const CUTOFF = new Date(NOW.getTime() - LOOKBACK_DAYS * 86400_000);
 
 const RELEASE_SIGNAL = /\b(?:introduc(?:e|es|ed|ing)|announc(?:e|es|ed|ing)|launch(?:es|ed|ing)?|releas(?:e|es|ed|ing)|preview(?:s|ed|ing)?|general availability|ga release)\b|正式(?:发布|推出|上线)|发布并开源|发布|推出|全新模型|模型上线/iu;
-const NEGATIVE_TITLE = /\b(?:system card|safety|safeguard|pricing|price|discount|partnership|partner|copilot|bedrock|azure|aws|vertex|foundry|policy|benchmark|evaluation|evals|research agenda|how to|guide|tutorial|usage|limits?|incident|watermark|availability in|now in|support for|integration|integrating|improving|upgrade your|changelog|with references)\b|价格|降价|优惠|合作|接入|安全|水印|评测|教程|指南|事故|限额|更新日志/iu;
+const NEGATIVE_TITLE = /\b(?:system card|model card|safety|safeguard|pricing|price|discount|partnership|partner|copilot|bedrock|azure|aws|vertex|foundry|policy|benchmark|evaluation|evals|research agenda|how to|guide|tutorial|usage|limits?|incident|watermark|availability in|now in|support for|integration|integrating|improving|upgrade your|changelog|with references)\b|价格|降价|优惠|合作|接入|安全|水印|评测|教程|指南|事故|限额|更新日志/iu;
 const STRONG_TITLE_SIGNAL = /^(?:introducing|announcing|previewing|launching|releasing)|\b(?:ga release|official(?:ly)? released|official launch)\b|(?:正式发布|正式推出|发布并开源|全新发布)/iu;
 
 const SOURCES = [
@@ -583,6 +583,7 @@ async function selfTest() {
   const cases = [
     ['openai', { title: 'Introducing GPT-5.7', description: 'We are releasing GPT-5.7 today.', date: NOW.toISOString(), body: '' }, true],
     ['openai', { title: 'GPT-5.6 in GitHub Copilot', description: 'GPT-5.6 is now available in Copilot.', date: NOW.toISOString(), body: '' }, false],
+    ['openai', { title: 'GPT-OSS Model Card', description: 'Technical details and evaluations for gpt-oss.', date: NOW.toISOString(), body: '', url: 'https://openai.com/index/gpt-oss-model-card/' }, false],
     ['anthropic', { title: 'Improving Claude Fable 5 biology safeguards', description: 'We are updating safeguards.', date: NOW.toISOString(), body: '' }, false],
     ['anthropic', { title: 'Anthropic Economic Index: Insights from Claude 3.7 Sonnet', description: 'The report discusses results observed after release.', date: NOW.toISOString(), body: '' }, false],
     ['anthropic', { title: 'Introducing Claude Fable 5.1 and Claude Mythos 5.1', description: 'Today we launch two new models.', date: NOW.toISOString(), body: '' }, true],
