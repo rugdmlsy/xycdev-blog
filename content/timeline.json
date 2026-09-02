@@ -1,10 +1,76 @@
 {
   "entries": [
     {
+      "id": "2d3dda4d-8636-472b-9440-9b275e8145ee",
+      "date": "2026-09-02",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini 3.8 Flash / Gemini 3.8 Flash Cyber。",
+        "en": "Google released Gemini 3.8 Flash / Gemini 3.8 Flash Cyber."
+      },
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"
+    },
+    {
+      "id": "a17dff38-b76e-4887-912c-a719efc37f53",
+      "date": "2026-09-02",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Meta 发布 Muse Spark 1.3。",
+        "en": "Meta released Muse Spark 1.3."
+      },
+      "url": "https://research.meta.ai/blog/introducing-muse-spark-1-3"
+    },
+    {
+      "id": "d7514e52-1e67-4a4d-978f-55c1c8978d3b",
+      "date": "2026-09-01",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Anthropic 发布 Claude Fable 5.1 / Claude Mythos 5.1。",
+        "en": "Anthropic released Claude Fable 5.1 / Claude Mythos 5.1."
+      },
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
+    },
+    {
+      "id": "576c311f-2f6e-4ab0-bfd8-7dc7c733704c",
+      "date": "2026-09-01",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Meta 发布 Muse Voice Transcribe。",
+        "en": "Meta released Muse Voice Transcribe."
+      },
+      "url": "https://research.meta.ai/blog/introducing-muse-voice-transcribe"
+    },
+    {
+      "id": "f31a8f50-57b1-48d7-a164-5f917aa087f2",
+      "date": "2026-08-27",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini Omni 1.1 Flash。",
+        "en": "Google released Gemini Omni 1.1 Flash."
+      },
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/"
+    },
+    {
       "id": "90a8290d-e6f3-4278-83fd-3a8571ab8d35",
       "date": "2026-08-26T14:12:00.000Z",
       "tags": [
-        "news"
+        "news",
+        "model-release"
       ],
       "content": {
         "zh": "GLM-5.3-Flash发布。",
@@ -37,6 +103,32 @@
       "url": ""
     },
     {
+      "id": "589e7cfb-8da9-4ade-883c-c302c7c2f47f",
+      "date": "2026-08-26",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini 3.5 Transcribe。",
+        "en": "Google released Gemini 3.5 Transcribe."
+      },
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/"
+    },
+    {
+      "id": "00821fb8-9b8f-40fb-b682-3b456b8f0fdf",
+      "date": "2026-08-26",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Qwen 发布 Qwen3.8-Flash-Next。",
+        "en": "Qwen released Qwen3.8-Flash-Next."
+      },
+      "url": "https://qwen.ai/blog?id=qwen3.8-flash-next"
+    },
+    {
       "id": "1cce7572-e74a-4186-b2e7-efc02867b6e0",
       "date": "2026-08-25T17:58:00.000Z",
       "tags": [
@@ -47,6 +139,227 @@
         "en": "OpenAI officially announced the fix for the 5.6‑sol routing to 5.5‑mini issue."
       },
       "url": "https://x.com/adamhfry/status/2092310630233780330?s=20"
+    },
+    {
+      "id": "5506f07f-948d-4123-8e59-074d5c2ac878",
+      "date": "2026-08-21",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "DeepSeek 发布 DeepSeek-V4-Flash-Vision-Exp。",
+        "en": "DeepSeek released DeepSeek-V4-Flash-Vision-Exp."
+      },
+      "url": "https://api-docs.deepseek.com/news/news260821/"
+    },
+    {
+      "id": "68c0181c-5ea7-446d-a4fe-9d0d2f34047e",
+      "date": "2026-08-14",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Qwen 发布 Qwen3.8-27B。",
+        "en": "Qwen released Qwen3.8-27B."
+      },
+      "url": "https://github.com/QwenLM/Qwen3.8#news"
+    },
+    {
+      "id": "1093a385-efbd-4160-9847-cb98d0494584",
+      "date": "2026-08-14",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Z.ai 发布 GLM-5.3。",
+        "en": "Z.ai released GLM-5.3."
+      },
+      "url": "https://www.zhipuai.cn/zh/research/162"
+    },
+    {
+      "id": "5f73d763-3217-4907-9384-4b25624f8d69",
+      "date": "2026-08-13",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "DeepSeek 发布 DeepSeek-V4-Pro。",
+        "en": "DeepSeek released DeepSeek-V4-Pro."
+      },
+      "url": "https://api-docs.deepseek.com/news/news260813/"
+    },
+    {
+      "id": "701639e7-5997-43b4-a975-908ca809d45c",
+      "date": "2026-08-13",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini 3.7 Flash。",
+        "en": "Google released Gemini 3.7 Flash."
+      },
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/"
+    },
+    {
+      "id": "2e9f6efa-8de2-49fe-9a2d-338abb3c9113",
+      "date": "2026-08-12",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Qwen 发布 Qwen3.8-2.4T-A95B。",
+        "en": "Qwen released Qwen3.8-2.4T-A95B."
+      },
+      "url": "https://github.com/QwenLM/Qwen3.8#news"
+    },
+    {
+      "id": "7afa031d-2816-4a8a-a0f7-a4bcaa63d118",
+      "date": "2026-08-12",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "xAI 发布 Grok 4.6。",
+        "en": "xAI released Grok 4.6."
+      },
+      "url": "https://x.ai/news/grok-4-6"
+    },
+    {
+      "id": "c9355296-a515-4535-bd9b-1b78d5053bc4",
+      "date": "2026-08-12",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google DeepMind 发布 SL2T。",
+        "en": "Google DeepMind released SL2T."
+      },
+      "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/"
+    },
+    {
+      "id": "37db58a5-205e-4400-99d5-005162cbfc8c",
+      "date": "2026-08-10",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 GPT-5.6-Cyber。",
+        "en": "OpenAI released GPT-5.6-Cyber."
+      },
+      "url": "https://openai.com/index/expanding-daybreak-as-the-cyber-defense-window-narrows/"
+    },
+    {
+      "id": "7ee8eb87-8997-4f6c-96e9-ea715783c07d",
+      "date": "2026-08-10",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Meta 发布 Muse Glimmer。",
+        "en": "Meta released Muse Glimmer."
+      },
+      "url": "https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model"
+    },
+    {
+      "id": "121c93e0-11d3-4d61-94ba-7701af3a3c02",
+      "date": "2026-08-07",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "xAI 发布 Imagine Image 2.0。",
+        "en": "xAI released Imagine Image 2.0."
+      },
+      "url": "https://x.ai/news/grok-imagine-image-2"
+    },
+    {
+      "id": "4073f285-56de-4163-b62d-a6cac04bf7c3",
+      "date": "2026-08-05",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Meta 发布 Muse Spark 1.2。",
+        "en": "Meta released Muse Spark 1.2."
+      },
+      "url": "https://research.meta.ai/blog/introducing-muse-code-and-muse-spark-1-2"
+    },
+    {
+      "id": "48381b98-c1a6-46e8-96ea-dbc81ac7496d",
+      "date": "2026-08-05",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "ByteDance Seed 发布 SeedRealtime。",
+        "en": "ByteDance Seed released SeedRealtime."
+      },
+      "url": "https://seed.bytedance.com/en/blog/seedrealtime-audio-visual-full-duplex-llm-released-toward-omni-modal-natural-interaction"
+    },
+    {
+      "id": "9776aa1f-6a46-4fac-83e3-146fbd362add",
+      "date": "2026-08-04",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Mistral AI 发布 Shieldstral。",
+        "en": "Mistral AI released Shieldstral."
+      },
+      "url": "https://mistral.ai/news/shieldstral/"
+    },
+    {
+      "id": "e9c68844-66c5-4eff-b15f-5f4cfb492244",
+      "date": "2026-08-02",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Qwen 发布 Qwen3.8-Max。",
+        "en": "Qwen released Qwen3.8-Max."
+      },
+      "url": "https://qwen.ai/blog?id=qwen3.8"
+    },
+    {
+      "id": "2438b03c-a5e7-4c13-92f0-bce97291e7ca",
+      "date": "2026-07-31",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "DeepSeek 发布 DeepSeek-V4-Flash。",
+        "en": "DeepSeek released DeepSeek-V4-Flash."
+      },
+      "url": "https://api-docs.deepseek.com/updates/#date-2026-07-31"
+    },
+    {
+      "id": "ac0a5dfb-6fdb-4732-97ee-8853ecd8a0a0",
+      "date": "2026-07-31",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "ByteDance Seed 发布 Seedance 2.5。",
+        "en": "ByteDance Seed released Seedance 2.5."
+      },
+      "url": "https://seed.bytedance.com/en/blog/one-take-creation-flexible-referencing-introducing-seedance-2-5"
     }
   ]
 }
