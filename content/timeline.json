@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "54ab4285-36dc-4cbf-b280-fb392f45974c",
+      "date": "2026-09-02T22:43:00.406Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt oss model card。",
+        "en": "OpenAI released gpt oss model card."
+      },
+      "url": "https://openai.com/index/gpt-oss-model-card/"
+    },
+    {
       "id": "2d3dda4d-8636-472b-9440-9b275e8145ee",
       "date": "2026-09-02",
       "tags": [
