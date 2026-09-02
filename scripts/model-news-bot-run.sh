@@ -4,7 +4,13 @@ set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:${PATH:-}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-CACHE_DIR="${BLOG_MODEL_NEWS_CACHE_DIR:-$HOME/Library/Caches/xycdev-blog-model-news}"
+if [[ -n "${BLOG_MODEL_NEWS_CACHE_DIR:-}" ]]; then
+  CACHE_DIR="$BLOG_MODEL_NEWS_CACHE_DIR"
+elif [[ "$(uname -s)" == "Darwin" ]]; then
+  CACHE_DIR="$HOME/Library/Caches/xycdev-blog-model-news"
+else
+  CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/xycdev-blog-model-news"
+fi
 STATE_PATH="$CACHE_DIR/state.json"
 LOCK_DIR="$CACHE_DIR/run.lock"
 PENDING_DEPLOY="$CACHE_DIR/pending-deploy"
