@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "eb499666-81eb-4a13-bc67-c002f71ed919",
+      "date": "2026-09-03T19:49:41.909Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6 astra。",
+        "en": "OpenAI released gpt 6 astra."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-astra"
+    },
+    {
       "id": "2d3dda4d-8636-472b-9440-9b275e8145ee",
       "date": "2026-09-02",
       "tags": [
