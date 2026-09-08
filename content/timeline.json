@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": "52afad52-d656-4800-b3b5-30168b17e1a4",
+      "date": "2026-09-08T19:06:31.369Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt image 2.5 sunburst。",
+        "en": "OpenAI released gpt image 2.5 sunburst."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-sunburst"
+    },
+    {
+      "id": "10974f26-d6cb-4a6a-b535-482039c32c3a",
+      "date": "2026-09-08T19:06:31.369Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt image 2.5 flare。",
+        "en": "OpenAI released gpt image 2.5 flare."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-image-2.5-flare"
+    },
+    {
       "id": "eb499666-81eb-4a13-bc67-c002f71ed919",
       "date": "2026-09-03T19:49:41.909Z",
       "tags": [
