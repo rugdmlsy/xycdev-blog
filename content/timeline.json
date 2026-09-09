@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "04a18068-2521-4c99-92aa-dc832aef5773",
+      "date": "2026-09-09T21:08:51.309Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6 astra next generation。",
+        "en": "OpenAI released gpt 6 astra next generation."
+      },
+      "url": "https://openai.com/index/gpt-6-astra-next-generation-work/"
+    },
+    {
       "id": "52afad52-d656-4800-b3b5-30168b17e1a4",
       "date": "2026-09-08T19:06:31.369Z",
       "tags": [
