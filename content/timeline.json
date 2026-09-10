@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "63e005a8-99ba-416d-be80-8c332f1c79fe",
+      "date": "2026-09-10",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "DeepSeek 发布 DeepSeek-V4.1-Flash。",
+        "en": "DeepSeek released DeepSeek-V4.1-Flash."
+      },
+      "url": "https://api-docs.deepseek.com/updates/#date-2026-09-10"
+    },
+    {
       "id": "04a18068-2521-4c99-92aa-dc832aef5773",
       "date": "2026-09-09T21:08:51.309Z",
       "tags": [
