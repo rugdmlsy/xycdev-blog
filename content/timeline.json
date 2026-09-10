@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "53d4ec9a-33c7-49ec-b0bf-5fabeee55af6",
+      "date": "2026-09-10T17:11:51.328Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt live 1 in the。",
+        "en": "OpenAI released gpt live 1 in the."
+      },
+      "url": "https://openai.com/index/introducing-gpt-live-1-in-the-api/"
+    },
+    {
       "id": "63e005a8-99ba-416d-be80-8c332f1c79fe",
       "date": "2026-09-10",
       "tags": [
