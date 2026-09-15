@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "fc5c2bd4-3f8f-46ec-b9a9-e17084d86a5c",
+      "date": "2026-09-15",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini 3.8 Live。",
+        "en": "Google released Gemini 3.8 Live."
+      },
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/"
+    },
+    {
       "id": "53d4ec9a-33c7-49ec-b0bf-5fabeee55af6",
       "date": "2026-09-10T17:11:51.328Z",
       "tags": [
