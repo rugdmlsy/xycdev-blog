@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "4b55d186-f3e9-4582-afbb-0ef082b4c51b",
+      "date": "2026-09-22",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Anthropic 发布 Claude Opus 5.5 / Claude Opus 5。",
+        "en": "Anthropic released Claude Opus 5.5 / Claude Opus 5."
+      },
+      "url": "https://www.anthropic.com/claude-opus-5-5"
+    },
+    {
       "id": "fc5c2bd4-3f8f-46ec-b9a9-e17084d86a5c",
       "date": "2026-09-15",
       "tags": [
