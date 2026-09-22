@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": "16f1f504-3211-4dfb-9cb6-eac86088ce60",
+      "date": "2026-09-22T18:51:01.313Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6 sol and luna。",
+        "en": "OpenAI released gpt 6 sol and luna."
+      },
+      "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+    },
+    {
+      "id": "aef263a2-be1c-4c44-bda4-a28ca5b4ffb2",
+      "date": "2026-09-22T18:51:01.313Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6 luna。",
+        "en": "OpenAI released gpt 6 luna."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+    },
+    {
       "id": "4b55d186-f3e9-4582-afbb-0ef082b4c51b",
       "date": "2026-09-22",
       "tags": [
