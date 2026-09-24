@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "92047c11-1330-4ba3-83cb-9d1350e98135",
+      "date": "2026-09-24T18:57:37.609Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 4o audio preview。",
+        "en": "OpenAI released gpt 4o audio preview."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-4o-audio-preview"
+    },
+    {
       "id": "16f1f504-3211-4dfb-9cb6-eac86088ce60",
       "date": "2026-09-22T18:51:01.313Z",
       "tags": [
