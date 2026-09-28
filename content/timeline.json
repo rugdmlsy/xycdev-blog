@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "f61f6d52-bb15-4bab-8d20-fe12053a8b0c",
+      "date": "2026-09-28",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Anthropic 发布 Claude Sonnet 5.5 / Claude Sonnet 5。",
+        "en": "Anthropic released Claude Sonnet 5.5 / Claude Sonnet 5."
+      },
+      "url": "https://www.anthropic.com/claude-sonnet-5-5"
+    },
+    {
       "id": "92047c11-1330-4ba3-83cb-9d1350e98135",
       "date": "2026-09-24T18:57:37.609Z",
       "tags": [
