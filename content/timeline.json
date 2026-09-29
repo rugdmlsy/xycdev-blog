@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": "69baadf2-785b-4d9d-b78e-17fb853e105e",
+      "date": "2026-09-29T17:16:41.657Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 GPT-6.1 Sol。",
+        "en": "OpenAI released GPT-6.1 Sol."
+      },
+      "url": "https://openai.com/index/introducing-gpt-6-1-sol/"
+    },
+    {
+      "id": "5ef4cfaf-130e-473b-953a-5976e3de0818",
+      "date": "2026-09-29T17:16:41.657Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6.1 sol。",
+        "en": "OpenAI released gpt 6.1 sol."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol"
+    },
+    {
       "id": "f61f6d52-bb15-4bab-8d20-fe12053a8b0c",
       "date": "2026-09-28",
       "tags": [
