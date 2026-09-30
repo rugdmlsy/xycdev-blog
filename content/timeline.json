@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "c8d3a4e5-895f-4bf8-b558-35ef31e45e42",
+      "date": "2026-09-30",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini 4。",
+        "en": "Google released Gemini 4."
+      },
+      "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/"
+    },
+    {
       "id": "69baadf2-785b-4d9d-b78e-17fb853e105e",
       "date": "2026-09-29T17:16:41.657Z",
       "tags": [
