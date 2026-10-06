@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "c73b06de-55ef-46e0-933c-b544a41fefb8",
+      "date": "2026-10-06T12:00:27.000Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Mistral AI 发布 Mistral Large 4。",
+        "en": "Mistral AI released Mistral Large 4."
+      },
+      "url": "https://mistral.ai/news/mistral-large-4/"
+    },
+    {
       "id": "c8d3a4e5-895f-4bf8-b558-35ef31e45e42",
       "date": "2026-09-30",
       "tags": [
