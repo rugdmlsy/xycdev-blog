@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": "61ce60e2-1043-4d59-9ff2-3b68944263a4",
+      "date": "2026-10-07T18:42:11.177Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6 for everyone。",
+        "en": "OpenAI released gpt 6 for everyone."
+      },
+      "url": "https://openai.com/index/gpt-6-for-everyone/"
+    },
+    {
+      "id": "70eed72b-0eb8-4cfd-bb92-59bdded58c09",
+      "date": "2026-10-07",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Anthropic 发布 Claude Haiku 5.5。",
+        "en": "Anthropic released Claude Haiku 5.5."
+      },
+      "url": "https://www.anthropic.com/claude-haiku-5-5"
+    },
+    {
       "id": "c73b06de-55ef-46e0-933c-b544a41fefb8",
       "date": "2026-10-06T12:00:27.000Z",
       "tags": [
