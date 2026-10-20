@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "8be001bb-34a0-4b42-bcff-ea2036ac0bd6",
+      "date": "2026-10-20T12:00:22.000Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Mistral AI 发布 Voxtral 3。",
+        "en": "Mistral AI released Voxtral 3."
+      },
+      "url": "https://mistral.ai/news/voxtral-3/"
+    },
+    {
       "id": "e490aad4-442e-4b53-8390-f60dc1914fe7",
       "date": "2026-10-17",
       "tags": [
