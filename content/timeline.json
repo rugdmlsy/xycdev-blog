@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "b5abfc6d-84c9-44d5-be6f-20c952533de4",
+      "date": "2026-10-26T18:42:08.034Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6.1 terra。",
+        "en": "OpenAI released gpt 6.1 terra."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"
+    },
+    {
       "id": "8be001bb-34a0-4b42-bcff-ea2036ac0bd6",
       "date": "2026-10-20T12:00:22.000Z",
       "tags": [
