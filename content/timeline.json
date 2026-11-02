@@ -1,6 +1,45 @@
 {
   "entries": [
     {
+      "id": "8722f5b7-eea5-4e95-8a09-f9807046b424",
+      "date": "2026-11-02T22:04:31.243Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 4o mini audio preview。",
+        "en": "OpenAI released gpt 4o mini audio preview."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini-audio-preview"
+    },
+    {
+      "id": "cd9109e9-be7e-4925-90f6-3d294983c383",
+      "date": "2026-11-02T22:04:31.243Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 4o realtime preview。",
+        "en": "OpenAI released gpt 4o realtime preview."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-4o-realtime-preview"
+    },
+    {
+      "id": "88f6ad8f-0ee0-4adb-a2f6-251063fb7a2a",
+      "date": "2026-11-02T22:04:31.243Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 4o mini realtime preview。",
+        "en": "OpenAI released gpt 4o mini realtime preview."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini-realtime-preview"
+    },
+    {
       "id": "cc8cf8df-7f3d-4fd7-a250-11d01ee16d80",
       "date": "2026-10-27T16:13:00.000Z",
       "tags": [
