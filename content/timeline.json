@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "id": "a5d9dbcd-a07b-4cc2-b1cb-eadaefd8d55d",
+      "date": "2026-11-05T17:12:31.091Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6 cyber。",
+        "en": "OpenAI released gpt 6 cyber."
+      },
+      "url": "https://openai.com/index/introducing-gpt-6-cyber/"
+    },
+    {
+      "id": "67d42af9-efdc-4a82-b474-a70ce79267bb",
+      "date": "2026-11-05",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Gemini Omni 1.2 Flash。",
+        "en": "Google released Gemini Omni 1.2 Flash."
+      },
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
+    },
+    {
       "id": "0a46bf0a-d82c-4823-a586-a95a930ab2be",
       "date": "2026-11-05T00:09:58.600Z",
       "tags": [
