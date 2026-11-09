@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "4acbbd83-62e1-4987-bb1a-72c63cbba748",
+      "date": "2026-11-09",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "ByteDance Seed 发布 Seedream 5.5。",
+        "en": "ByteDance Seed released Seedream 5.5."
+      },
+      "url": "https://seed.bytedance.com/en/blog/more-realistic-images-more-stable-editing-across-100-rounds-introducing-seedream-5-5"
+    },
+    {
       "id": "a5d9dbcd-a07b-4cc2-b1cb-eadaefd8d55d",
       "date": "2026-11-05T17:12:31.091Z",
       "tags": [
