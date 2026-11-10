@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "48ef054b-67bd-4442-8577-e200d45c1071",
+      "date": "2026-11-10T15:00:00.000Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google DeepMind 发布 Gemini Robotics 2.5。",
+        "en": "Google DeepMind released Gemini Robotics 2.5."
+      },
+      "url": "https://deepmind.google/blog/gemini-robotics-2-5-accelerates-real-world-physical-intelligence/"
+    },
+    {
       "id": "4acbbd83-62e1-4987-bb1a-72c63cbba748",
       "date": "2026-11-09",
       "tags": [
