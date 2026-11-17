@@ -1,6 +1,45 @@
 {
   "entries": [
     {
+      "id": "b4ecd659-cc47-419a-a325-3cc5d39d9212",
+      "date": "2026-11-17T17:54:35.993Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 GPT-6.2。",
+        "en": "OpenAI released GPT-6.2."
+      },
+      "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
+    },
+    {
+      "id": "38f528a2-2525-4dcb-bb07-e6c10c325f5b",
+      "date": "2026-11-17T17:54:35.993Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6.2 astra。",
+        "en": "OpenAI released gpt 6.2 astra."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-6.2-astra"
+    },
+    {
+      "id": "386f9b01-3c9a-4e65-80bb-849c7518046a",
+      "date": "2026-11-17T17:54:35.993Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt 6.2 sol。",
+        "en": "OpenAI released gpt 6.2 sol."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-6.2-sol"
+    },
+    {
       "id": "48ef054b-67bd-4442-8577-e200d45c1071",
       "date": "2026-11-10T15:00:00.000Z",
       "tags": [
