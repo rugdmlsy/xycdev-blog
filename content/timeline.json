@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "aadf3767-5795-406e-b515-de038d4ab5de",
+      "date": "2026-11-19",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Google 发布 Genie 4 is / Genie 4 on。",
+        "en": "Google released Genie 4 is / Genie 4 on."
+      },
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/genie-4-in-gemini-api/"
+    },
+    {
       "id": "b4ecd659-cc47-419a-a325-3cc5d39d9212",
       "date": "2026-11-17T17:54:35.993Z",
       "tags": [
