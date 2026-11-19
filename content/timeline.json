@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "86e5f054-db19-4ecd-92d5-fbe5f9fdfb8d",
+      "date": "2026-11-19T20:01:30.782Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "OpenAI 发布 gpt live 1.1。",
+        "en": "OpenAI released gpt live 1.1."
+      },
+      "url": "https://developers.openai.com/api/docs/models/gpt-live-1.1"
+    },
+    {
       "id": "aadf3767-5795-406e-b515-de038d4ab5de",
       "date": "2026-11-19",
       "tags": [
