@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "id": "e0c010e1-dc4b-4f22-9aba-4cdd3861186c",
+      "date": "2026-11-22T16:00:00.000Z",
+      "tags": [
+        "news",
+        "model-release"
+      ],
+      "content": {
+        "zh": "Z.ai 发布 GLM-5.4。",
+        "en": "Z.ai released GLM-5.4."
+      },
+      "url": "https://www.zhipuai.cn/zh/research/164"
+    },
+    {
       "id": "86e5f054-db19-4ecd-92d5-fbe5f9fdfb8d",
       "date": "2026-11-19T20:01:30.782Z",
       "tags": [
